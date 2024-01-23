@@ -7,7 +7,7 @@
 <style scoped>
 .card {
   border-radius: 5px;
-  margin: 50px auto;
+  margin: 10px auto;
   border: 1px solid #dbe4e5;
   /* box-shadow: 0 10px 5px rgba(0, 0, 0, 0.2); */
   padding: 10px 5px;

@@ -8,14 +8,22 @@ import { useStore } from "vuex";
 const store = useStore();
 const orders = ref();
 
+const searchOrderRequest = {
+  orderId: null,
+  clientId: null,
+  orderStatus: null,
+
+}
+
 async function loadData() {
-  await store.dispatch("orders/loadOrders");
+  await store.dispatch("orders/loadOrders",searchOrderRequest);
   orders.value = store.getters["orders/findOrders"];
 }
 
 function totalPrice(item) {
   return item.productList.map((p) => p.prix).reduce((p1, p2) => p1 + p2, 0);
 }
+
 
 // async function loadData2() {
 //   const response = await axios.get('http://localhost:8082/orders/');
@@ -30,18 +38,20 @@ onMounted(() => {
 <template>
   <base-card>
     <label for="orderId">Order id</label>
-    <input type="text" name="orderId" id="orderId" />
+    <input type="text" name="orderId" id="orderId" v-model="searchOrderRequest.orderId" />
     <label for="clientId">Client id</label>
-    <input type="text" name="clientId" id="clientId" />
+    <input type="text" name="clientId" id="clientId" v-model="searchOrderRequest.clientId"/>
     <label for="clientId">order status</label>
-    <select name="orderStatus" id="orderStatus">
-      <option value="new">new</option>
-      <option value="forwarded">forwarded</option>
-      <option value="delivered">delivered</option>
-      <option value="canceled">canceled</option>
+    <select name="orderStatus" id="orderStatus" v-model="searchOrderRequest.orderStatus">
+      <option :value="null"></option>
+      <option value="NEW">new</option>
+      <option value="FORWARDED">forwarded</option>
+      <option value="DELIVERED">delivered</option>
+      <option value="CANCELED">canceled</option>
     </select>
-    <div class="action-panel"> <base-button class="btn">search</base-button></div>
-   
+    <div class="action-panel">
+      <base-button class="btn" @click="loadData">search</base-button>
+    </div>
   </base-card>
   <base-table>
     <template v-slot:title>

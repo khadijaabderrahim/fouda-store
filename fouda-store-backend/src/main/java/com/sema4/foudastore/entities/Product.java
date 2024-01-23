@@ -19,4 +19,8 @@ public class Product {
 
     private Double prix;
 
+    private Integer rating;
+
+    private String image;
+
 }

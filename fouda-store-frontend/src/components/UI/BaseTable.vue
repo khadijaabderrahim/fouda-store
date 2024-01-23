@@ -1,8 +1,8 @@
 <template>
-  <div class="clients">
-    <header>
-      <slot name="title"></slot>
-    </header>
+  <header>
+    <slot name="title"></slot>
+  </header>
+  <div class="table-panel">
     <table>
       <thead>
         <tr>
@@ -17,9 +17,17 @@
 </template>
 
 <style scoped>
-
 header {
-    font-weight: 600;
+  font-weight: 600;
 }
 
+.table-panel {
+  overflow-y: auto;
+  height: 450px;
+}
+
+thead :slotted(th) {
+  position: sticky;
+  top: 0px;
+}
 </style>

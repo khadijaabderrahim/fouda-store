@@ -22,10 +22,9 @@ export default {
   name: "App",
 
   setup() {
-    
     const title = ref(process.env.VUE_APP_TITLE);
-    return {title};
-  }
+    return { title };
+  },
 };
 </script>
 
@@ -42,6 +41,13 @@ export default {
   --gris-fonce: #777988;
   --gris: #b2c4c8;
   --gris-clair: #dbe4e5;
+}
+
+header {
+  overflow: hidden;
+  width: 100%;
+  position: fixed;
+  top: 0;
 }
 
 nav a {
@@ -73,6 +79,7 @@ main {
   font-size: 16px;
   padding: 15px 10px;
   color: var(--noir);
+  margin-top: 70px;
 }
 
 p {
@@ -84,10 +91,6 @@ h2 {
   font-weight: 600;
 }
 
-
-
-
-
 button {
   color: var(--gris-fonce);
   border: none;
@@ -95,7 +98,7 @@ button {
   font-size: 5px;
   padding: 0;
 }
- button:hover {
+button:hover {
   color: rgb(164, 69, 69);
   cursor: pointer;
 }
@@ -137,7 +140,6 @@ tr:nth-child(even) {
   background-color: var(--gris-clair);
 }
 
-
 .btn {
   font-size: 16px;
   padding: 5px;
@@ -145,19 +147,23 @@ tr:nth-child(even) {
   border-radius: 2px;
   background: #777988;
   color: #dbe4e5;
+  cursor: pointer;
   /* color: #777988;
   background: #dbe4e5; */
 }
 
+
+
 .btn:hover {
   background: #777988;
   color: #dbe4e5;
-  cursor: pointer;
 }
 .add-btn {
   float: right;
 }
 
-
-
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 </style>
