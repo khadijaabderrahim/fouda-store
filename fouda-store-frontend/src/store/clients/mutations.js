@@ -4,7 +4,6 @@ export default {
   },
 
   loadClientDetail(state,payload) {
-    console.log(payload);
     state.clientDetails = payload;
   }
 };

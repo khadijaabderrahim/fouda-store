@@ -116,7 +116,6 @@ export default {
     },
 
     confirmDelete(client) {
-      console.log(client.id);
       this.clientToDeleteName = client.firstname + " " + client.lastname;
       this.clientToDeleteId = client.id;
       this.deleteConfirm = true;
@@ -139,7 +138,6 @@ export default {
     },
   },
   beforeCreate() {
-    console.log(this.$store);
     this.$store.dispatch("clients/loadClients");
   },
 };

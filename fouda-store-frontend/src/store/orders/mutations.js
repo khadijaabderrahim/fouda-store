@@ -6,6 +6,5 @@ export default {
 
     updateOrderDetails(state,payload) {
         state.orderDetails = payload;
-        console.log(state.orderDetails);
     }
 }

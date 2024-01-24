@@ -9,7 +9,6 @@ const store = useStore();
 async function loadOrderDetails() {
   await store.dispatch("orders/getOrderDetails", props.orderId);
   order.value = await store.getters["orders/getOrderDetails"];
-  console.log(order.value);
 }
 
 loadOrderDetails();

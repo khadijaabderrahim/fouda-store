@@ -58,7 +58,6 @@ async function save() {
   checkForm();
 
   if (errors.value.length === 0) {
-    console.log(clientToSave);
     await store.dispatch("clients/save", clientToSave);
     emit("close-dialog");
   }
