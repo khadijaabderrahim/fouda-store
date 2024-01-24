@@ -42,10 +42,10 @@
               title="view client details"
               ><view-icon></view-icon
             ></base-button>
-            <base-button @click="edit(client)" title="edit client"
+            <base-button @click="edit(client)" title="Edit client"
               ><edit-icon></edit-icon
             ></base-button>
-            <base-button @click="confirmDelete(client)" title="delete client"
+            <base-button @click="confirmDelete(client)" title="Delete client"
               ><delete-icon></delete-icon
             ></base-button>
           </td>
@@ -111,7 +111,7 @@ export default {
     },
 
     edit(client) {
-      this.title = "edit Client";
+      this.title = "Edit Client";
       this.clientToSave = client;
       this.formVisible = true;
     },
