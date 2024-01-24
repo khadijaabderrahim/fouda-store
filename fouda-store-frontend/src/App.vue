@@ -6,8 +6,9 @@
       <router-link to="/products">Products</router-link>
       <router-link to="/orders">Orders</router-link>
       <span>
-        <span class="logo"> <baby-icon></baby-icon></span> {{ title }}
+        <span style="font-size: xx-small;">{{env}}</span> <span class="logo"> <baby-icon></baby-icon></span> {{ title }}
       </span>
+      
     </nav>
   </header>
 
@@ -21,9 +22,11 @@ import { ref } from "vue";
 export default {
   name: "App",
 
-  setup() {
-    const title = ref(process.env.VUE_APP_TITLE);
-    return { title };
+  data() {
+    return {
+      title: ref(process.env.VUE_APP_TITLE),
+      env: ref(process.env.VUE_APP_ENV),
+    };
   },
 };
 </script>
@@ -151,8 +154,6 @@ tr:nth-child(even) {
   /* color: #777988;
   background: #dbe4e5; */
 }
-
-
 
 .btn:hover {
   background: #777988;

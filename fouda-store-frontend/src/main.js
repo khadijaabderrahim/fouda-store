@@ -12,16 +12,7 @@ import BaseCard from "./components/UI/BaseCard";
 
 import axios from "axios";
 
-// Request interceptor
-axios.interceptors.request.use((config) => {
-  let headers = {
-    "Content-Type": "application/json",
-    "My-Custom-Header": "MyHeaderValue",
-    Authorization: "Auth",
-  };
-  config.headers = headers;
-  return config;
-});
+
 
 const app = createApp(App);
 app.use(router);
@@ -44,4 +35,23 @@ app.config.globalProperties.$filters = {
     return arrondi + "€";
   },
 };
+
+// Request interceptor
+axios.interceptors.request.use((config) => {
+  let headers = {
+    "Content-Type": "application/json",
+    "My-Custom-Header": "MyHeaderValue",
+    Authorization: "Auth",
+  };
+  config.headers = headers;
+  return config;
+});
+
+axios.interceptors.response.use((response) => {
+  
+  return response
+}, (error) => {
+  alert('An error occurred in backend server. \nPlease contact your administrator')
+  return Promise.reject(error)
+})
 app.mount("#app");
