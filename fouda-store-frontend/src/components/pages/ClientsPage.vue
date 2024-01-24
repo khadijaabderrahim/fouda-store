@@ -12,16 +12,17 @@
       @confirm-action="deleteClient"
       @cancel-action="cancelDelete"
     >
-       Are you sure you
-      want to delete the client {{ clientToDeleteName }} ?
+      Are you sure you want to delete the client {{ clientToDeleteName }} ?
     </base-alert>
+    <div class="all-line">
+      <base-button class="add-btn" title="add client" @click="add"
+        ><add-icon></add-icon
+      ></base-button>
+    </div>
 
     <base-table>
       <template v-slot:title>
         <span>Clients</span>
-        <base-button class="add-btn" title="add client" @click="add"
-          ><add-icon></add-icon
-        ></base-button>
       </template>
       <template v-slot:header>
         <th>Firstname</th>
@@ -144,5 +145,9 @@ export default {
 </script>
 
 <style scoped>
-
+.all-line {
+  width: 100%;
+  margin: 0px auto;
+  height: 30px;
+}
 </style>
