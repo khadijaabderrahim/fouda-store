@@ -48,4 +48,8 @@ public class ProductRepository implements InMemoryRepositoty<Product,Long>{
             throw new ElementNotFoundException("product with id "+id+" not found");
         }
     }
+
+    public List<Product> findByIds(List<Long> ids) {
+        return products.stream().filter(p -> ids.contains(p.getId())).toList();
+    }
 }

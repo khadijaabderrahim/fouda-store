@@ -7,6 +7,8 @@ import com.sema4.foudastore.entities.Status;
 import com.sema4.foudastore.repositories.ClientRepository;
 import com.sema4.foudastore.repositories.OrderRepository;
 import com.sema4.foudastore.repositories.ProductRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +24,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @Configuration
 public class InitDataConfig {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(InitDataConfig.class);
     //init data
     @Autowired
     private ClientRepository clientRepository;
@@ -62,6 +65,9 @@ public class InitDataConfig {
         Product p8 = new Product(null,"couche","couche pampers taille 3",10.1,9,"https://m.media-amazon.com/images/I/81lWODVmLsL.__AC_SX300_SY300_QL70_ML2_.jpg");
         Product p9 = new Product(null,"vélo","vélo 18 m+",40.0,7,"https://media.larmoiredebebe.com/ab/products/00/06/04/77/AB0006047758.jpg");
         Product p10 = new Product(null,"trottinette","trottinette glober up rose",100.0,9,"https://static.fnac-static.com/multimedia/Images/FR/MDM/e1/06/01/16844513/3756-1/tsp20231111172030/Trottinette-enfant-Globber-Go-Up-Foldable-T-Bar-Rose-et-Noir.jpg");
+        Product p11 = new Product(null,"Poussette","Poussette canne noir dossier",100.0,2,"https://media.carrefour.fr/medias/6015026e072c3c779a85624f4a0e3dc9/p_1500x1500/3616181074678-photosite-20210108-175506-0.jpg");
+        Product p12 = new Product(null,"Poussette","Poussette CASSY 6-48 mois",100.0,2,"https://m.media-amazon.com/images/I/81fcG+eD7QL._AC_SL1500_.jpg");
+        Product p13 = new Product(null,"Poussette","Lara²",250.0,8,"https://images.maxi-cosi.fr/dorel-public-storage-prod/catalog/product/cache/655f0b719d7fda71d9d06b11a51a9714/1/2/1233750112_2021_maxicosi_stroller_lara2_essentialgraphite_3qrtleft.png");
 
         productRepository.save(p1);
         productRepository.save(p2);
@@ -73,12 +79,18 @@ public class InitDataConfig {
         productRepository.save(p8);
         productRepository.save(p9);
         productRepository.save(p10);
+        productRepository.save(p10);
+        productRepository.save(p11);
+        productRepository.save(p12);
+        productRepository.save(p13);
 
     }
 
     private void initOrders() {
         Random random = new Random();
-        for(int i = 1 ;  i<=1000 ; i++){
+        int ordersCount = 10;
+        LOGGER.info("Init {} orders .." , ordersCount);
+        for(int i = 1 ;  i<=ordersCount ; i++){
             Client client = clientRepository.findById(random.nextLong(8) + 1).get();
             int numberOfProduct = random.nextInt(11) + 1;
             List<Product> products = new ArrayList<>();

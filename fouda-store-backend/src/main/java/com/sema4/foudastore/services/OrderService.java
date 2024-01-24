@@ -11,7 +11,7 @@ public interface OrderService {
     List<Order> findAll();
     Order findById(Long id);
 
-    void save(Order order);
+    void create(Long clientId, List<Long> productsIds);
 
     void deleteById(Long id);
 

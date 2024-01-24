@@ -1,5 +1,6 @@
 package com.sema4.foudastore.controllers;
 
+import com.sema4.foudastore.dto.CreateOrderRequest;
 import com.sema4.foudastore.dto.SearchOrderRequest;
 import com.sema4.foudastore.entities.Order;
 import com.sema4.foudastore.services.OrderService;
@@ -37,8 +38,8 @@ public class OrderController extends ExceptionHandling {
 
     // add order
     @PostMapping("/")
-    ResponseEntity save(@RequestBody Order order) {
-        orderService.save(order);
+    ResponseEntity save(@RequestBody CreateOrderRequest orderRequest) {
+        orderService.create(orderRequest.getClientId(), orderRequest.getSelectedProducts());
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
