@@ -10,7 +10,6 @@ const selectedProducts = ref([]);
 
 const active = ref(true);
 
-
 async function loadProducts() {
   await store.dispatch("products/findAllProducts");
   products.value = store.getters["products/findProducts"];
@@ -27,12 +26,11 @@ function createOrder(event, id) {
     }
   }
 
-  if(selectedProducts.value.length > 0) {
+  if (selectedProducts.value.length > 0) {
     active.value = false;
   } else {
     active.value = true;
   }
-  console.log(selectedProducts.value.length);
 }
 
 onMounted(() => {
@@ -43,9 +41,27 @@ onMounted(() => {
 <template>
   <base-card>
     <base-button class="btn">Add product</base-button>
-    <base-button class="btn" :class="{disabled: active}"
+    <base-button class="btn" :class="{ disabled: active }"
       >Create order</base-button
     >
+  </base-card>
+  <base-card v-if="!active">
+    <div>
+      <span>Number of selected products: </span>
+      <span>{{ selectedProducts.length }}</span>
+    </div>
+    <div>
+        <label for="clientsSelector">Client: </label>
+        <input type="text" id="Selector">
+    </div>
+    <div>
+        <span>Client id: </span>
+        <span>MON_ID </span>
+    </div>
+    <div>
+        <span>Client name </span>
+        <span>MON_NAME </span>
+    </div>
   </base-card>
 
   <ul v-if="products">
