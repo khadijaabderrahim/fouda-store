@@ -3,64 +3,94 @@ import { useStore } from "vuex";
 import { ref, onMounted } from "vue";
 import ProductItem from "../products/ProductItem.vue";
 import BaseCard from "../UI/BaseCard.vue";
+import { ModelSelect } from "vue-search-select";
 
 const store = useStore();
 const products = ref(null);
-const selectedProducts = ref([]);
 
-const active = ref(true);
+const orderToCreate = ref({
+  clientId: null,
+  selectedProducts: [],
+});
+
+const clientsToSelect = ref();
 
 async function loadProducts() {
   await store.dispatch("products/findAllProducts");
   products.value = store.getters["products/findProducts"];
 }
 
+async function loadClientsToSelect() {
+  await store.dispatch("clients/loadClients");
+  let clients = store.getters["clients/findClients"];
+  clientsToSelect.value = clients.map((c) => {
+    return { value: c.id, text: c.id + " - " + c.firstname + " " + c.lastname };
+  });
+}
+
 function createOrder(event, id) {
+  console.log(event.target)
+  console.log(id)
   if (event.target.checked) {
-    selectedProducts.value.push(id);
+    orderToCreate.value.selectedProducts.push(id);
   } else {
-    const index = selectedProducts.value.indexOf(id);
+    const index = orderToCreate.value.selectedProducts.indexOf(id);
     if (index > -1) {
       // only splice array when item is found
-      selectedProducts.value.splice(index, 1); // 2nd parameter means remove one item only
+      orderToCreate.value.selectedProducts.splice(index, 1); // 2nd parameter means remove one item only
     }
-  }
-
-  if (selectedProducts.value.length > 0) {
-    active.value = false;
-  } else {
-    active.value = true;
   }
 }
 
+async function submitOrder() {
+  await store.dispatch("orders/create", orderToCreate.value);
+  cancelOrder();
+}
+
+function cancelOrder() {
+  orderToCreate.value = {
+    clientId: null,
+    selectedProducts: [],
+  };
+}
+
+function isCreateOrderDisabked(){
+  return this.orderToCreate.selectedProducts.length < 1;
+}
 onMounted(() => {
   loadProducts();
+  loadClientsToSelect();
 });
 </script>
 
 <template>
   <base-card>
-    <base-button class="btn">Add product</base-button>
-    <base-button class="btn" :class="{ disabled: active }"
+    <base-button class="btn" >Add product</base-button>
+    <base-button class="btn" :class="{ disabled: isCreateOrderDisabked }"
       >Create order</base-button
     >
   </base-card>
-  <base-card v-if="!active">
+  <base-card v-if="orderToCreate.selectedProducts.length > 0">
     <div>
-      <span>Number of selected products: </span>
-      <span>{{ selectedProducts.length }}</span>
+      <span style="font-weight: bold">Number of selected products: </span>
+      <span>{{ orderToCreate.selectedProducts.length }}</span>
     </div>
-    <div>
-        <label for="clientsSelector">Client: </label>
-        <input type="text" id="Selector">
+    <div class="form-group">
+      <label for="clientsSelector">Client: </label>
+      <model-select
+        class="search-client"
+        id="clientsSelector"
+        :options="clientsToSelect"
+        v-model="orderToCreate.clientId"
+        name="my name"
+        placeholder="Select client"
+      >
+      </model-select>
     </div>
-    <div>
-        <span>Client id: </span>
-        <span>MON_ID </span>
-    </div>
-    <div>
-        <span>Client name </span>
-        <span>MON_NAME </span>
+
+    <div class="form-group">
+      <base-button class="btn" @click="submitOrder">Submit order</base-button>
+      <base-button class="btn" @click="cancelOrder">Cancel order</base-button>
     </div>
   </base-card>
 
@@ -83,5 +113,14 @@ li {
   float: left;
   list-style: none;
   margin: 0px auto;
+  max-width: 250px;
+  max-height: 300px;
+  height: auto;
+}
+
+.ui.selection.dropdown {
+  min-height: 14px;
+  width: 50%;
+  margin-left: 10px;
 }
 </style>

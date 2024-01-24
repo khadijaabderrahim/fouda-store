@@ -9,6 +9,7 @@ import QuestionIcon from "vue-material-design-icons/Help.vue";
 import BabyBottleIcon from "vue-material-design-icons/BabyBottleOutline.vue";
 import store from "./store/index.js";
 import BaseCard from "./components/UI/BaseCard";
+import 'vue-search-select/dist/VueSearchSelect.css'
 
 import axios from "axios";
 

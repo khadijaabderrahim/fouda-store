@@ -6,9 +6,9 @@
       <router-link to="/products">Products</router-link>
       <router-link to="/orders">Orders</router-link>
       <span>
-        <span style="font-size: xx-small;">{{env}}</span> <span class="logo"> <baby-icon></baby-icon></span> {{ title }}
+        <span style="font-size: xx-small">{{ env }}</span>
+        <span class="logo"> <baby-icon></baby-icon></span> {{ title }}
       </span>
-      
     </nav>
   </header>
 
@@ -167,7 +167,8 @@ tr:nth-child(even) {
   cursor: not-allowed;
 }
 
-input[type=text], select {
+input[type="text"],
+select {
   width: auto;
   padding: 12px 12px;
   margin: 8px auto;
@@ -175,6 +176,13 @@ input[type=text], select {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+}
 
+.form-group {
+  margin: 10px 0px 0px 0px;
+  height: auto;
+}
+.form-group label {
+  font-weight: bold;
 }
 </style>

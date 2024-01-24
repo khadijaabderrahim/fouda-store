@@ -15,5 +15,16 @@ export default {
     async getOrderDetails(context,id) {
         const response = await axios.get(process.env.VUE_APP_API_URI+"/orders/"+id);
         context.commit('updateOrderDetails',response.data);
-    }
+    },
+
+    async create(context,payload) {
+        console.log(payload)
+        console.log (payload.clientId)
+        await axios.post(
+          process.env.VUE_APP_API_URI + "/orders/",
+          payload
+        );
+
+        context.dispatch('loadOrders', {})
+      }
 }
