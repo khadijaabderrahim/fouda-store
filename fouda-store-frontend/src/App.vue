@@ -6,8 +6,9 @@
       <router-link to="/products">Products</router-link>
       <router-link to="/orders">Orders</router-link>
       <span>
-        <span class="logo"> <baby-icon></baby-icon></span> {{ title }}
+        <span style="font-size: xx-small;">{{env}}</span> <span class="logo"> <baby-icon></baby-icon></span> {{ title }}
       </span>
+      
     </nav>
   </header>
 
@@ -21,9 +22,11 @@ import { ref } from "vue";
 export default {
   name: "App",
 
-  setup() {
-    const title = ref(process.env.VUE_APP_TITLE);
-    return { title };
+  data() {
+    return {
+      title: ref(process.env.VUE_APP_TITLE),
+      env: ref(process.env.VUE_APP_ENV),
+    };
   },
 };
 </script>
@@ -141,21 +144,18 @@ tr:nth-child(even) {
 }
 
 .btn {
-  font-size: 16px;
-  padding: 5px;
-  margin: 20px 10px;
-  border-radius: 2px;
+  font-size: 18px;
+  padding: 5px 20px;
+  margin: 8px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   background: #777988;
   color: #dbe4e5;
   cursor: pointer;
-  /* color: #777988;
-  background: #dbe4e5; */
 }
 
-
-
 .btn:hover {
-  background: #777988;
+  background: var(--noir);
   color: #dbe4e5;
 }
 .add-btn {
@@ -165,5 +165,16 @@ tr:nth-child(even) {
 .disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+input[type=text], select {
+  width: auto;
+  padding: 12px 12px;
+  margin: 8px auto;
+  /* display: inline-block; */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+
 }
 </style>

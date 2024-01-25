@@ -12,16 +12,17 @@
       @confirm-action="deleteClient"
       @cancel-action="cancelDelete"
     >
-       Are you sure you
-      want to delete the client {{ clientToDeleteName }} ?
+      Are you sure you want to delete the client {{ clientToDeleteName }} ?
     </base-alert>
+    <div class="all-line">
+      <base-button class="add-btn" title="add client" @click="add"
+        ><add-icon></add-icon
+      ></base-button>
+    </div>
 
     <base-table>
       <template v-slot:title>
         <span>Clients</span>
-        <base-button class="add-btn" title="add client" @click="add"
-          ><add-icon></add-icon
-        ></base-button>
       </template>
       <template v-slot:header>
         <th>Firstname</th>
@@ -41,10 +42,10 @@
               title="view client details"
               ><view-icon></view-icon
             ></base-button>
-            <base-button @click="edit(client)" title="edit client"
+            <base-button @click="edit(client)" title="Edit client"
               ><edit-icon></edit-icon
             ></base-button>
-            <base-button @click="confirmDelete(client)" title="delete client"
+            <base-button @click="confirmDelete(client)" title="Delete client"
               ><delete-icon></delete-icon
             ></base-button>
           </td>
@@ -110,13 +111,12 @@ export default {
     },
 
     edit(client) {
-      this.title = "edit Client";
+      this.title = "Edit Client";
       this.clientToSave = client;
       this.formVisible = true;
     },
 
     confirmDelete(client) {
-      console.log(client.id);
       this.clientToDeleteName = client.firstname + " " + client.lastname;
       this.clientToDeleteId = client.id;
       this.deleteConfirm = true;
@@ -139,12 +139,15 @@ export default {
     },
   },
   beforeCreate() {
-    console.log(this.$store);
     this.$store.dispatch("clients/loadClients");
   },
 };
 </script>
 
 <style scoped>
-
+.all-line {
+  width: 100%;
+  margin: 0px auto;
+  height: 30px;
+}
 </style>

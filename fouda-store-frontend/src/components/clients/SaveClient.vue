@@ -5,15 +5,19 @@
       <ul class="error" v-if="errors">
         <li v-for="error in errors" :key="error">{{ error }}</li>
       </ul>
-      <label for="firstname">firstname</label>
-      <input type="text" v-model="clientToSave.firstname" />
-      <label for="lastname">lastname</label>
-      <input type="lastname" v-model="clientToSave.lastname" />
-      <label for="email">email</label>
-      <input type="email" v-model="clientToSave.email" />
-      <base-button class="btn" @click.prevent="save"
-        >save</base-button
-      >
+      <div>
+        <label for="firstname">firstname</label>
+        <input type="text" v-model="clientToSave.firstname" />
+      </div>
+      <div>
+        <label for="lastname">lastname</label>
+        <input type="text" v-model="clientToSave.lastname" />
+      </div>
+      <div>
+        <label for="email">email</label>
+        <input type="text" v-model="clientToSave.email" />
+      </div>
+      <base-button class="btn" @click.prevent="save">save</base-button>
       <base-button class="btn" @click.prevent="cancel">cancel</base-button>
     </form>
   </dialog>
@@ -58,7 +62,6 @@ async function save() {
   checkForm();
 
   if (errors.value.length === 0) {
-    console.log(clientToSave);
     await store.dispatch("clients/save", clientToSave);
     emit("close-dialog");
   }
@@ -79,9 +82,6 @@ async function save() {
   font-size: 14px;
 }
 
-
-
-
 dialog h2 {
   margin-top: 20px;
   text-align: center;
@@ -92,9 +92,6 @@ dialog input:focus {
   outline: 1px solid #2222224f;
 }
 
-
-
-
 .error li {
   padding: 5px;
   list-style: none;
@@ -104,6 +101,11 @@ dialog input:focus {
 form label,
 input {
   display: block;
-  margin: 5px 5px;
+  margin: 5px auto 5px 0px;
+  width: 100%;
+}
+
+form label {
+  margin: 25px 0 0 0;
 }
 </style>

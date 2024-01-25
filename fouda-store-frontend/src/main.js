@@ -10,6 +10,10 @@ import BabyBottleIcon from "vue-material-design-icons/BabyBottleOutline.vue";
 import store from "./store/index.js";
 import BaseCard from "./components/UI/BaseCard";
 
+import axios from "axios";
+
+
+
 const app = createApp(App);
 app.use(router);
 app.use(store);
@@ -27,8 +31,27 @@ app.config.globalProperties.$filters = {
   },
 
   euroCurrency(value) {
-    let arrondi = Math.round(value * 100) / 100 ;
+    let arrondi = Math.round(value * 100) / 100;
     return arrondi + "€";
   },
 };
+
+// Request interceptor
+axios.interceptors.request.use((config) => {
+  let headers = {
+    "Content-Type": "application/json",
+    "My-Custom-Header": "MyHeaderValue",
+    Authorization: "Auth",
+  };
+  config.headers = headers;
+  return config;
+});
+
+axios.interceptors.response.use((response) => {
+  
+  return response
+}, (error) => {
+  alert('An error occurred in backend server. \nPlease contact your administrator')
+  return Promise.reject(error)
+})
 app.mount("#app");
