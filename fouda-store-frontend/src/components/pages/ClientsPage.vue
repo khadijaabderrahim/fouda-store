@@ -15,7 +15,7 @@
       Are you sure you want to delete the client {{ clientToDeleteName }} ?
     </base-alert>
     <div class="all-line">
-      <base-button class="add-btn"  @click="add"
+      <base-button class="add-btn icon-btn"  @click="add"
         ><add-icon></add-icon
       ></base-button>
     </div>

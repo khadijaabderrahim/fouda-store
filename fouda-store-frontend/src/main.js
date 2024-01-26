@@ -41,8 +41,7 @@ app.config.globalProperties.$filters = {
 axios.interceptors.request.use((config) => {
   let headers = {
     "Content-Type": "application/json",
-    "My-Custom-Header": "MyHeaderValue",
-    Authorization: "Auth",
+    Authorization: "Basic dXNlcjE6dXNlcjFQYXNz"
   };
   config.headers = headers;
   return config;
