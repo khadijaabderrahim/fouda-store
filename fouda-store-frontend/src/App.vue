@@ -143,29 +143,6 @@ tr:nth-child(even) {
   background-color: var(--gris-clair);
 }
 
-.btn {
-  font-size: 18px;
-  padding: 5px 20px;
-  margin: 8px 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background: #777988;
-  color: #dbe4e5;
-  cursor: pointer;
-}
-
-.btn:hover {
-  background: var(--noir);
-  color: #dbe4e5;
-}
-.add-btn {
-  float: right;
-}
-
-.disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
 
 input[type="text"],
 select {
@@ -184,5 +161,9 @@ select {
 }
 .form-group label {
   font-weight: bold;
+}
+
+.add-btn {
+  float: right;
 }
 </style>

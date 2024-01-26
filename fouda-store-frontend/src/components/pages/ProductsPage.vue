@@ -4,6 +4,7 @@ import { ref, onMounted } from "vue";
 import ProductItem from "../products/ProductItem.vue";
 import BaseCard from "../UI/BaseCard.vue";
 import { ModelSelect } from "vue-search-select";
+import BaseButton from "../UI/BaseButton.vue"
 
 const store = useStore();
 const products = ref(null);
@@ -18,6 +19,9 @@ const clientsToSelect = ref();
 async function loadProducts() {
   await store.dispatch("products/findAllProducts");
   products.value = store.getters["products/findProducts"];
+  products.value.forEach((p) => {
+    p.isSelectedForOrder = false;
+  });
 }
 
 async function loadClientsToSelect() {
@@ -29,8 +33,6 @@ async function loadClientsToSelect() {
 }
 
 function createOrder(event, id) {
-  console.log(event.target)
-  console.log(id)
   if (event.target.checked) {
     orderToCreate.value.selectedProducts.push(id);
   } else {
@@ -43,6 +45,9 @@ function createOrder(event, id) {
 }
 
 async function submitOrder() {
+  orderToCreate.value.selectedProducts = products.value
+    .filter((p) => p.isSelectedForOrder)
+    .map((p) => p.id);
   await store.dispatch("orders/create", orderToCreate.value);
   cancelOrder();
 }
@@ -52,11 +57,26 @@ function cancelOrder() {
     clientId: null,
     selectedProducts: [],
   };
+
+  products.value.forEach((p) => (p.isSelectedForOrder = false));
 }
 
-function isCreateOrderDisabked(){
-  return this.orderToCreate.selectedProducts.length < 1;
+function isCreateOrderEnabled() {
+  if (products.value) {
+    return getNumberOfSelectedProducts() > 0;
+  }
 }
+
+function getNumberOfSelectedProducts() {
+  return products.value.filter((p) => p.isSelectedForOrder).length;
+}
+
+function submitOrderDisabled() {
+
+  let v = (orderToCreate.value.clientId == null ) || (getNumberOfSelectedProducts() < 1)
+  return v;
+}
+
 onMounted(() => {
   loadProducts();
   loadClientsToSelect();
@@ -64,44 +84,45 @@ onMounted(() => {
 </script>
 
 <template>
-  <base-card>
-    <base-button class="btn" >Add product</base-button>
-    <base-button class="btn" :class="{ disabled: isCreateOrderDisabked }"
-      >Create order</base-button
-    >
-  </base-card>
-  <base-card v-if="orderToCreate.selectedProducts.length > 0">
-    <div>
-      <span style="font-weight: bold">Number of selected products: </span>
-      <span>{{ orderToCreate.selectedProducts.length }}</span>
-    </div>
-    <div class="form-group">
-      <label for="clientsSelector">Client: </label>
-      <model-select
-        class="search-client"
-        id="clientsSelector"
-        :options="clientsToSelect"
-        v-model="orderToCreate.clientId"
-        name="my name"
-        placeholder="Select client"
-      >
-      </model-select>
-    </div>
+  <div v-if="products">
+    <base-card>
+      <base-button>Add product</base-button>
+    </base-card>
+    <base-card v-if="isCreateOrderEnabled()">
+      <div>
+        <span style="font-weight: bold">Number of selected products: </span>
+        <span>{{ getNumberOfSelectedProducts() }}</span>
+      </div>
+      <div class="form-group">
+        <label for="clientsSelector">Client: </label>
+        <model-select
+          class="search-client"
+          id="clientsSelector"
+          :options="clientsToSelect"
+          v-model="orderToCreate.clientId"
+          name="my name"
+          placeholder="Select client"
+        >
+        </model-select>
+      </div>
 
-    <div class="form-group">
-      <base-button class="btn" @click="submitOrder">Submit order</base-button>
-      <base-button class="btn" @click="cancelOrder">Cancel order</base-button>
-    </div>
-  </base-card>
+      <div class="form-group">
+        <base-button  @click="submitOrder" :disabled="submitOrderDisabled()"
+          >Submit order</base-button
+        >
+        <base-button @click="cancelOrder">Cancel order</base-button>
+      </div>
+    </base-card>
 
-  <ul v-if="products">
-    <li v-for="product in products" :key="product.id">
-      <product-item
-        :product="product"
-        @add-product="createOrder"
-      ></product-item>
-    </li>
-  </ul>
+    <ul v-if="products">
+      <li v-for="(product, index) in products" :key="product.id">
+        <product-item
+          v-model="products[index]"
+          @add-product="createOrder"
+        ></product-item>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <style scoped>

@@ -1,8 +1,9 @@
 <script setup>
 import BaseCard from "../UI/BaseCard.vue";
-import { defineProps } from "vue";
+import { defineModel } from "vue";
 
-defineProps(["product"]);
+const product = defineModel();
+
 </script>
 
 <template>
@@ -13,7 +14,7 @@ defineProps(["product"]);
       <span>{{ $filters.euroCurrency(product.prix) }}</span>
     </div>
     <div class="checkbox">
-      <input type="checkbox" @input="$emit('add-product',$event,product.id)" />
+      <input type="checkbox" v-model="product.isSelectedForOrder" />
     </div>
   </base-card>
 </template>
