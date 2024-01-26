@@ -25,11 +25,6 @@ function totalPrice(item) {
 }
 
 
-// async function loadData2() {
-//   const response = await axios.get('http://localhost:8082/orders/');
-//   orders.value = response.data;
-// }
-
 onMounted(() => {
   loadData();
 });
@@ -50,7 +45,7 @@ onMounted(() => {
       <option value="CANCELED">canceled</option>
     </select>
     <div class="action-panel">
-      <base-button class="btn" @click="loadData">search</base-button>
+      <base-button @click="loadData">search</base-button>
     </div>
   </base-card>
   <base-table>

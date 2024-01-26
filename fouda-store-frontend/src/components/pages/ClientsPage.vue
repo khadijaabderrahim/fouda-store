@@ -15,7 +15,7 @@
       Are you sure you want to delete the client {{ clientToDeleteName }} ?
     </base-alert>
     <div class="all-line">
-      <base-button class="add-btn" title="add client" @click="add"
+      <base-button class="add-btn"  @click="add"
         ><add-icon></add-icon
       ></base-button>
     </div>
@@ -40,12 +40,13 @@
             <base-button
               @click="viewClient(client.id)"
               title="view client details"
+              class="icon-btn"
               ><view-icon></view-icon
             ></base-button>
-            <base-button @click="edit(client)" title="Edit client"
+            <base-button @click="edit(client)" title="Edit client" class="icon-btn"
               ><edit-icon></edit-icon
             ></base-button>
-            <base-button @click="confirmDelete(client)" title="Delete client"
+            <base-button @click="confirmDelete(client)" title="Delete client" class="icon-btn"
               ><delete-icon></delete-icon
             ></base-button>
           </td>
@@ -148,6 +149,6 @@ export default {
 .all-line {
   width: 100%;
   margin: 0px auto;
-  height: 30px;
+  height: 70px;
 }
 </style>

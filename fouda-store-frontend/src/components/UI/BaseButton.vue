@@ -15,14 +15,16 @@ console.log(prop.disabled)
 
 <style scoped>
 .btn {
-  font-size: 18px;
-  padding: 5px 20px;
+  font-size: 14px;
+  padding: 5px 5px;
   margin: 8px 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
   background: #777988;
   color: #dbe4e5;
   cursor: pointer;
+  width: auto;
+  height: auto;
 }
 
 .btn:hover {
@@ -34,5 +36,12 @@ console.log(prop.disabled)
 .btn-disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.icon-btn {
+  border : none;
+  color: var(--gris-fonce);
+  background-color: transparent;
+  margin: 0px;
 }
 </style>

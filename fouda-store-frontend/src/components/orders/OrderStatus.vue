@@ -25,8 +25,7 @@ const statusColor = computed(() => {
 
 .span{
   border-radius: 3px;
-  padding: 4px;
-  font-size: 14px;
+  padding: 0px 2px;
 }
 
 .span-new {

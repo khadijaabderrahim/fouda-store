@@ -30,4 +30,5 @@ thead :slotted(th) {
   position: sticky;
   top: 0px;
 }
+
 </style>

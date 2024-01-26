@@ -80,7 +80,7 @@ nav a.router-link-active {
 main {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
-  padding: 15px 10px;
+  padding: 15px 1px;
   color: var(--noir);
   margin-top: 70px;
 }
@@ -131,7 +131,7 @@ td {
 th,
 td {
   height: 15px;
-  padding: 5px;
+  padding: 0px 5px;
 }
 
 th {
@@ -166,4 +166,6 @@ select {
 .add-btn {
   float: right;
 }
+
+
 </style>
