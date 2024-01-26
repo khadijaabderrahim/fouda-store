@@ -5,6 +5,7 @@ import ProductItem from "../products/ProductItem.vue";
 import BaseCard from "../UI/BaseCard.vue";
 import { ModelSelect } from "vue-search-select";
 import BaseButton from "../UI/BaseButton.vue"
+import SpinnerPage from "../UI/SpinnerPage.vue"
 
 const store = useStore();
 const products = ref(null);
@@ -132,6 +133,9 @@ onMounted(() => {
         ></product-item>
       </li>
     </ul>
+  </div>
+  <div v-else>
+    <spinner-page></spinner-page>
   </div>
 </template>
 

@@ -9,6 +9,8 @@ import QuestionIcon from "vue-material-design-icons/Help.vue";
 import BabyBottleIcon from "vue-material-design-icons/BabyBottleOutline.vue";
 import store from "./store/index.js";
 import BaseCard from "./components/UI/BaseCard";
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+
 import 'vue-search-select/dist/VueSearchSelect.css'
 
 import axios from "axios";
@@ -25,6 +27,7 @@ app.component("add-icon", AddIcon);
 app.component("question-icon", QuestionIcon);
 app.component("baby-icon", BabyBottleIcon);
 app.component("base-card", BaseCard);
+app.component("pulse-loader", PulseLoader);
 
 app.config.globalProperties.$filters = {
   formatDate(value) {

@@ -20,6 +20,11 @@ public class ProductController extends ExceptionHandling {
     // all products
     @GetMapping("/")
     ResponseEntity<List<Product>> findAll() {
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return ResponseEntity.ok(productService.findAll());
     }
 
