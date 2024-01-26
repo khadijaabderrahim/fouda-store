@@ -143,8 +143,8 @@ tr:nth-child(even) {
   background-color: var(--gris-clair);
 }
 
-
 input[type="text"],
+input[type="number"],
 select {
   width: auto;
   padding: 12px 12px;
@@ -158,14 +158,23 @@ select {
 .form-group {
   margin: 10px 0px 0px 0px;
   height: auto;
+  border: 1px #dbe4e5;
 }
 .form-group label {
+  padding-top: 10px;
+  margin: 0 10px;
   font-weight: bold;
+  display: block;
+  float: left;
+  width: 177px;
+  
+}
+
+.form-group input {
+  margin: 0px 0px 0px 50px;
 }
 
 .add-btn {
   float: right;
 }
-
-
 </style>

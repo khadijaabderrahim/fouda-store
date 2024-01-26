@@ -2,14 +2,15 @@
 import { useStore } from "vuex";
 import { ref, onMounted } from "vue";
 import ProductItem from "../products/ProductItem.vue";
+import AddProduct from "../products/AddProduct.vue";
 import BaseCard from "../UI/BaseCard.vue";
 import { ModelSelect } from "vue-search-select";
-import BaseButton from "../UI/BaseButton.vue"
-import SpinnerPage from "../UI/SpinnerPage.vue"
+import BaseButton from "../UI/BaseButton.vue";
+import SpinnerPage from "../UI/SpinnerPage.vue";
 
 const store = useStore();
 const products = ref(null);
-
+const isCreatingProduct = ref(false);
 const orderToCreate = ref({
   clientId: null,
   selectedProducts: [],
@@ -68,7 +69,7 @@ function isCreateOrderEnabled() {
   }
 }
 
-function getSelectedProducts(){
+function getSelectedProducts() {
   return products.value.filter((p) => p.isSelectedForOrder);
 }
 function getNumberOfSelectedProducts() {
@@ -76,11 +77,13 @@ function getNumberOfSelectedProducts() {
 }
 
 function getPriceOfSelectedProducts() {
-  return getSelectedProducts().map(p => p.prix).reduce((a,b) => a+b, 0)
+  return getSelectedProducts()
+    .map((p) => p.prix)
+    .reduce((a, b) => a + b, 0);
 }
 function submitOrderDisabled() {
-
-  let v = (orderToCreate.value.clientId == null ) || (getNumberOfSelectedProducts() < 1)
+  let v =
+    orderToCreate.value.clientId == null || getNumberOfSelectedProducts() < 1;
   return v;
 }
 
@@ -93,16 +96,19 @@ onMounted(() => {
 <template>
   <div v-if="products">
     <base-card>
-      <base-button>Add product</base-button>
+      <base-button @click="isCreatingProduct = true">Add product</base-button>
+    </base-card>
+    <base-card v-if="isCreatingProduct">
+      <add-product @closeCreatProduct="isCreatingProduct = false"></add-product>
     </base-card>
     <base-card v-if="isCreateOrderEnabled()">
       <div>
         <span style="font-weight: bold">Number of selected products: </span>
         <span>{{ getNumberOfSelectedProducts() }}</span>
       </div>
-          <div>
+      <div>
         <span style="font-weight: bold">price : </span>
-        <span>{{ $filters.euroCurrency(getPriceOfSelectedProducts())  }}</span>
+        <span>{{ $filters.euroCurrency(getPriceOfSelectedProducts()) }}</span>
       </div>
       <div class="form-group">
         <label for="clientsSelector">Client: </label>
@@ -118,7 +124,7 @@ onMounted(() => {
       </div>
 
       <div class="form-group">
-        <base-button  @click="submitOrder" :disabled="submitOrderDisabled()"
+        <base-button @click="submitOrder" :disabled="submitOrderDisabled()"
           >Submit order</base-button
         >
         <base-button @click="cancelOrder">Cancel order</base-button>
