@@ -67,10 +67,16 @@ function isCreateOrderEnabled() {
   }
 }
 
+function getSelectedProducts(){
+  return products.value.filter((p) => p.isSelectedForOrder);
+}
 function getNumberOfSelectedProducts() {
-  return products.value.filter((p) => p.isSelectedForOrder).length;
+  return getSelectedProducts().length;
 }
 
+function getPriceOfSelectedProducts() {
+  return getSelectedProducts().map(p => p.prix).reduce((a,b) => a+b, 0)
+}
 function submitOrderDisabled() {
 
   let v = (orderToCreate.value.clientId == null ) || (getNumberOfSelectedProducts() < 1)
@@ -92,6 +98,10 @@ onMounted(() => {
       <div>
         <span style="font-weight: bold">Number of selected products: </span>
         <span>{{ getNumberOfSelectedProducts() }}</span>
+      </div>
+          <div>
+        <span style="font-weight: bold">price : </span>
+        <span>{{ $filters.euroCurrency(getPriceOfSelectedProducts())  }}</span>
       </div>
       <div class="form-group">
         <label for="clientsSelector">Client: </label>
