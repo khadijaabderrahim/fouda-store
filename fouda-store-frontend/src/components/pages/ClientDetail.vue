@@ -68,14 +68,8 @@ li {
   list-style: none;
 }
 
-.card.my-class {
-  margin: 50px 0px;
-  width: 400px;
-}
 
-h4 {
-  color: #17a195;
-}
+
 
 summary {
   font-weight: 600;

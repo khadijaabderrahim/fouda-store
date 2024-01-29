@@ -1,9 +1,10 @@
 <script setup>
 import BaseTable from "../UI/BaseTable.vue";
 import OrderStatus from "../orders/OrderStatus.vue";
+import BaseButton from "../UI/BaseButton";
 import { onMounted, ref } from "vue";
 import { useStore } from "vuex";
-// import axios from 'axios';
+import SpinnerPage from "@/components/UI/SpinnerPage";
 
 const store = useStore();
 const orders = ref();
@@ -33,9 +34,9 @@ onMounted(() => {
 <template>
   <base-card>
     <label for="orderId">Order id</label>
-    <input type="text" name="orderId" id="orderId" v-model="searchOrderRequest.orderId" />
+    <input type="number" name="orderId" id="orderId" v-model="searchOrderRequest.orderId" />
     <label for="clientId">Client id</label>
-    <input type="text" name="clientId" id="clientId" v-model="searchOrderRequest.clientId"/>
+    <input type="number" name="clientId" id="clientId" v-model="searchOrderRequest.clientId"/>
     <label for="clientId">order status</label>
     <select name="orderStatus" id="orderStatus" v-model="searchOrderRequest.orderStatus">
       <option :value="null"></option>
@@ -45,16 +46,10 @@ onMounted(() => {
       <option value="CANCELED">canceled</option>
     </select>
     <div class="action-panel">
-      <base-button @click="loadData">search</base-button>
+      <base-button class="btn" @click="loadData">search</base-button>
     </div>
   </base-card>
-  <base-table>
-    <template v-slot:title>
-      <span>Orders</span>
-      <base-button class="add-btn" title="add order" @click="add"
-        ><add-icon></add-icon
-      ></base-button>
-    </template>
+  <base-table v-if="orders">
     <template v-slot:header>
       <th>Order number</th>
       <th>Client id</th>
@@ -85,6 +80,9 @@ onMounted(() => {
       </tr>
     </template>
   </base-table>
+  <div v-else>
+    <spinner-page></spinner-page>
+  </div>
 </template>
 
 <style scoped>

@@ -51,7 +51,8 @@ public class OrderController extends ExceptionHandling {
     }
 
     @PostMapping("/search")
-    ResponseEntity<List<Order>> search(@RequestBody SearchOrderRequest searchOrderRequest) {
+    ResponseEntity<List<Order>> search(@RequestBody SearchOrderRequest searchOrderRequest) throws InterruptedException {
+        Thread.sleep(1000);
         return ResponseEntity.ok(orderService.searchOrders(searchOrderRequest));
     }
 

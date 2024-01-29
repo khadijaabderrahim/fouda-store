@@ -17,7 +17,7 @@
         <label for="email">email</label>
         <input type="text" v-model="clientToSave.email" />
       </div>
-      <base-button class="btn" @click.prevent="save">save</base-button>
+      <base-button  @click.prevent="save">save</base-button>
       <base-button class="btn" @click.prevent="cancel">cancel</base-button>
     </form>
   </dialog>

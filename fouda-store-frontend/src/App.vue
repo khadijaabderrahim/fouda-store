@@ -94,6 +94,10 @@ h2 {
   font-weight: 600;
 }
 
+h4 {
+  color: #17a195;
+}
+
 button {
   color: var(--gris-fonce);
   border: none;

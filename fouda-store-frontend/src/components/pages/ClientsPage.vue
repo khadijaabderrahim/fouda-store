@@ -1,58 +1,71 @@
 <template>
-  <div class="conatiner">
-    <save-client
-      v-if="formVisible"
-      :client="clientToSave"
-      :title="title"
-      @close-dialog="closeSaveDialog"
-    ></save-client>
+  <div v-if="this.clients">
+    <div class="conatiner">
+      <save-client
+          v-if="formVisible"
+          :client="clientToSave"
+          :title="title"
+          @close-dialog="closeSaveDialog"
+      ></save-client>
 
-    <base-alert
-      v-if="deleteConfirm"
-      @confirm-action="deleteClient"
-      @cancel-action="cancelDelete"
-    >
-      Are you sure you want to delete the client {{ clientToDeleteName }} ?
-    </base-alert>
-    <div class="all-line">
-      <base-button class="add-btn icon-btn"  @click="add"
-        ><add-icon></add-icon
-      ></base-button>
+      <base-alert
+          v-if="deleteConfirm"
+          @confirm-action="deleteClient"
+          @cancel-action="cancelDelete"
+      >
+        Are you sure you want to delete the client {{ clientToDeleteName }} ?
+      </base-alert>
+      <div class="all-line">
+        <base-button class="add-btn icon-btn" @click="add"
+        >
+          <add-icon></add-icon
+          >
+        </base-button>
+      </div>
+
+      <base-table>
+        <template v-slot:title>
+          <span>Clients</span>
+        </template>
+        <template v-slot:header>
+          <th>Firstname</th>
+          <th>Lastname</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </template>
+
+        <template v-slot:body>
+          <tr v-for="client in clients" :key="client.id">
+            <td>{{ client.firstname }}</td>
+            <td>{{ client.lastname }}</td>
+            <td>{{ client.email }}</td>
+            <td>
+              <base-button
+                  @click="viewClient(client.id)"
+                  title="view client details"
+                  class="icon-btn"
+              >
+                <view-icon></view-icon
+                >
+              </base-button>
+              <base-button @click="edit(client)" title="Edit client" class="icon-btn"
+              >
+                <edit-icon></edit-icon
+                >
+              </base-button>
+              <base-button @click="confirmDelete(client)" title="Delete client" class="icon-btn"
+              >
+                <delete-icon></delete-icon
+                >
+              </base-button>
+            </td>
+          </tr>
+        </template>
+      </base-table>
     </div>
-
-    <base-table>
-      <template v-slot:title>
-        <span>Clients</span>
-      </template>
-      <template v-slot:header>
-        <th>Firstname</th>
-        <th>Lastname</th>
-        <th>Email</th>
-        <th>Actions</th>
-      </template>
-
-      <template v-slot:body>
-        <tr v-for="client in clients" :key="client.id">
-          <td>{{ client.firstname }}</td>
-          <td>{{ client.lastname }}</td>
-          <td>{{ client.email }}</td>
-          <td>
-            <base-button
-              @click="viewClient(client.id)"
-              title="view client details"
-              class="icon-btn"
-              ><view-icon></view-icon
-            ></base-button>
-            <base-button @click="edit(client)" title="Edit client" class="icon-btn"
-              ><edit-icon></edit-icon
-            ></base-button>
-            <base-button @click="confirmDelete(client)" title="Delete client" class="icon-btn"
-              ><delete-icon></delete-icon
-            ></base-button>
-          </td>
-        </tr>
-      </template>
-    </base-table>
+  </div>
+  <div v-else>
+    <spinner-page></spinner-page>
   </div>
 </template>
 
@@ -61,8 +74,11 @@ import BaseButton from "../UI/BaseButton.vue";
 import SaveClient from "../clients/SaveClient.vue";
 import BaseTable from "../UI/BaseTable.vue";
 import BaseAlert from "../UI/BaseAlert.vue";
+import SpinnerPage from "@/components/UI/SpinnerPage";
+
 export default {
   components: {
+    SpinnerPage,
     BaseButton,
     SaveClient,
     BaseTable,
@@ -87,7 +103,7 @@ export default {
       var clients = this.$store.getters["clients/findClients"];
       var sortedClients = clients.sort((a, b) => {
         let fa = a.id,
-          fb = b.id;
+            fb = b.id;
         if (fa < fb) {
           return -1;
         }
@@ -131,8 +147,8 @@ export default {
 
     deleteClient() {
       this.$store
-        .dispatch("clients/delete", this.clientToDeleteId)
-        .then((this.deleteConfirm = false));
+          .dispatch("clients/delete", this.clientToDeleteId)
+          .then((this.deleteConfirm = false));
     },
 
     viewClient(id) {

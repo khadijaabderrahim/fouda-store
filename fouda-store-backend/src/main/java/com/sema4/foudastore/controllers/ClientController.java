@@ -21,6 +21,11 @@ public class ClientController extends ExceptionHandling {
     // all clients
     @GetMapping(value = "/",produces = {MediaType.APPLICATION_JSON_VALUE})
     ResponseEntity<List<Client>> findAll() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return ResponseEntity.ok(clientService.findAll());
     }
 
