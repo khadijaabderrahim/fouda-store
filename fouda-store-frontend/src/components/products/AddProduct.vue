@@ -1,12 +1,15 @@
 <script setup>
 import { ref, defineEmits } from "vue";
 import BaseButton from "../UI/BaseButton.vue";
+import {useStore} from "vuex";
 
 const productToCreate = ref({});
 const emit = defineEmits(["close-create-product"]);
+const store = useStore();
 
-function submitProduct() {
-  console.log(productToCreate.value);
+async function submitProduct() {
+  console.log(productToCreate.value)
+    await store.dispatch("products/save", productToCreate.value);
 }
 
 function cancelCreateProduct() {
@@ -23,7 +26,7 @@ function cancelCreateProduct() {
         type="text"
         id="productName"
         placeholder="Product label"
-        :v-model="productToCreate.label"
+        v-model="productToCreate.label"
       />
     </div>
     <div class="form-group">
@@ -32,7 +35,7 @@ function cancelCreateProduct() {
         type="text"
         id="productDescription"
         placeholder="Product description"
-        :v-model="productToCreate.description"
+        v-model="productToCreate.description"
       />
     </div>
     <div class="form-group">
@@ -41,7 +44,16 @@ function cancelCreateProduct() {
         type="number"
         id="productPrice"
         placeholder="price"
-        :v-model="productToCreate.prix"
+        v-model="productToCreate.prix"
+      />
+    </div>
+    <div class="form-group">
+      <label for="rating">Rating</label>
+      <input
+          type="number"
+          id="rating"
+          placeholder="price"
+          v-model="productToCreate.rating"
       />
     </div>
     <div class="form-group">
@@ -50,7 +62,7 @@ function cancelCreateProduct() {
         type="text"
         id="productPhoto"
         placeholder="product Photo"
-        :v-model="productToCreate.image"
+        v-model="productToCreate.image"
       />
     </div>
     <div class="form-group">

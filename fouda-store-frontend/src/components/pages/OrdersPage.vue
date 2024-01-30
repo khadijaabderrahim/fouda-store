@@ -35,7 +35,7 @@ onMounted(() => {
   <base-card>
     <label for="orderId">Order id</label>
     <input type="number" name="orderId" id="orderId" v-model="searchOrderRequest.orderId" />
-    <label for="clientId">Client id</label>
+    <label for="clientId">Client</label>
     <input type="number" name="clientId" id="clientId" v-model="searchOrderRequest.clientId"/>
     <label for="clientId">order status</label>
     <select name="orderStatus" id="orderStatus" v-model="searchOrderRequest.orderStatus">
@@ -52,7 +52,7 @@ onMounted(() => {
   <base-table v-if="orders">
     <template v-slot:header>
       <th>Order number</th>
-      <th>Client id</th>
+      <th>Client</th>
       <th>Order date</th>
       <th>Order status</th>
       <th>Items number</th>

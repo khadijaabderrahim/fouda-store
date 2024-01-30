@@ -51,6 +51,7 @@ header {
   width: 100%;
   position: fixed;
   top: 0;
+  z-index: 10
 }
 
 nav a {
@@ -178,7 +179,4 @@ select {
   margin: 0px 0px 0px 50px;
 }
 
-.add-btn {
-  float: right;
-}
 </style>
