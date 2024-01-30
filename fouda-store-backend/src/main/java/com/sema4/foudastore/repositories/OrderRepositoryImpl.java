@@ -23,14 +23,20 @@ public class OrderRepositoryImpl implements OrderCustomRepository {
     @Override
     public List<Order> searchOrders(Long orderId, Long clientId, Status orderStatus) {
         String queryString = "Select o  from  Order o where 1 = 1\n";
-        if(orderId != null )
-            queryString+="and o.id = :orderId\n";
-        if(clientId!= null)
-            queryString+="and o.client.id = :clientId";
-        if(orderStatus!= null)
-            queryString+="and o.status = :orderStatus";
+        if (orderId != null)
+            queryString += "and o.id = :orderId \n";
+        if (clientId != null)
+            queryString += "and o.client.id = :clientId \n";
+        if (orderStatus != null)
+            queryString += "and o.status = :orderStatus";
 
-        Query query = em.createQuery(queryString,Order.class);
+        Query query = em.createQuery(queryString, Order.class);
+        if (orderId != null)
+            query.setParameter("orderId", orderId);
+        if (clientId != null)
+            query.setParameter("clientId", clientId);
+        if (orderStatus != null)
+            query.setParameter("orderStatus", orderStatus);
         return query.getResultList();
     }
 }
