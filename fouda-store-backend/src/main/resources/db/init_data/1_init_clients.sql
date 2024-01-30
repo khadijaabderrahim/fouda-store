@@ -1,0 +1,13 @@
+INSERT INTO fsdev.client (firstname, lastname, email) VALUES('Zied', 'AYADI', 'zied.ayedi22@gmail.com');
+INSERT INTO fsdev.client (firstname, lastname, email) VALUES('Khadija', 'ABDERRAHIM', 'khadija.abderrahim1991@gmail.com');
+INSERT INTO fsdev.client (firstname, lastname, email) VALUES('Fedi', 'AYADI', 'fouda@foudastore.fr');
+INSERT INTO fsdev.client (firstname, lastname, email) VALUES('Anis', 'AYADI', 'anis.ayadi@gmail.com');
+INSERT INTO fsdev.client (firstname, lastname, email) VALUES('Hanen', 'AYADI', 'ha.ayadi@live.fr');
+INSERT INTO fsdev.client (firstname, lastname, email) VALUES('ABDERRAHIM', 'ABDERRAHIM', 'abdou.zika@gmail.com');
+INSERT INTO fsdev.client (firstname, lastname, email) VALUES('Atef', 'Atef', 'atef.abderrahim@outlook.fr');
+INSERT INTO fsdev.client (firstname, lastname, email) VALUES('Ameni', 'ABDERRAHIM', 'ameni.abderrahim.ep.chrif@gmail.com');
+INSERT INTO fsdev.client (firstname, lastname, email) VALUES('Chrif', 'Rassil', 'ch.rassil@gmail.com');
+INSERT INTO fsdev.client (firstname, lastname, email) VALUES('Sajed', 'Rassil', 'sajed.rassil@tn.com');
+INSERT INTO fsdev.client (firstname, lastname, email) VALUES('Hanin', 'Rassil', 'hanin.rassil@gmail.com');
+INSERT INTO fsdev.client (firstname, lastname, email) VALUES('Mohamed', 'Ben AMMAR', 'med.benappar@pc.tn');
+INSERT INTO fsdev.client (firstname, lastname, email) VALUES('Yahya', 'Ben AMMAR', 'yahyabenammar@yahoo.fr');

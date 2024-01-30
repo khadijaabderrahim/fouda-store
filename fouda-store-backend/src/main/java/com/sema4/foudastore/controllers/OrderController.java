@@ -28,11 +28,6 @@ public class OrderController extends ExceptionHandling {
     //order detail by id
     @GetMapping("/{id}")
     ResponseEntity<Order> findById(@PathVariable(name = "id") Long id) {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         return ResponseEntity.ok(orderService.findById(id));
     }
 
@@ -52,7 +47,6 @@ public class OrderController extends ExceptionHandling {
 
     @PostMapping("/search")
     ResponseEntity<List<Order>> search(@RequestBody SearchOrderRequest searchOrderRequest) throws InterruptedException {
-        Thread.sleep(500);
         return ResponseEntity.ok(orderService.searchOrders(searchOrderRequest));
     }
 

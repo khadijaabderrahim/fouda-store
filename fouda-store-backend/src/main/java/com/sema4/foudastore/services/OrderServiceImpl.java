@@ -52,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
 
         order.setStatus(Status.NEW);
 
-        List<Product> productList = productRepository.findByIds(productsIds);
+        List<Product> productList = productRepository.findAllById(productsIds);
         order.setProductList(productList);
         this.orderRepository.save(order);
     }

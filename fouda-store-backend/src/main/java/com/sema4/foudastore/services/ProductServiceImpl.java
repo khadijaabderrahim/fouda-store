@@ -14,6 +14,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Autowired
     private ProductRepository productRepository;
+
     @Override
     public List<Product> findAll() {
         return productRepository.findAll();
