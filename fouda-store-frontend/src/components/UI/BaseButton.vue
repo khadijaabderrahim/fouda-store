@@ -17,7 +17,6 @@ console.log(prop.disabled)
 .btn {
   font-size: 14px;
   padding: 5px 5px;
-  margin: 8px 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
   background: #777988;
@@ -43,5 +42,6 @@ console.log(prop.disabled)
   color: var(--gris-fonce);
   background-color: transparent;
   margin: 0px;
+  padding: 0px;
 }
 </style>

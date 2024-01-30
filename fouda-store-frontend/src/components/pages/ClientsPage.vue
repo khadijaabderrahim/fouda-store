@@ -11,18 +11,10 @@
       <base-alert
           v-if="deleteConfirm"
           @confirm-action="deleteClient"
-          @cancel-action="cancelDelete"
-      >
+          @cancel-action="cancelDelete">
         Are you sure you want to delete the client {{ clientToDeleteName }} ?
       </base-alert>
-      <div class="all-line">
-        <base-button class="add-btn icon-btn" @click="add"
-        >
-          <add-icon></add-icon
-          >
-        </base-button>
-      </div>
-
+      <base-button class="btn" @click="add">Add client</base-button>
       <base-table>
         <template v-slot:title>
           <span>Clients</span>
@@ -64,9 +56,7 @@
       </base-table>
     </div>
   </div>
-  <div v-else>
-    <spinner-page></spinner-page>
-  </div>
+  <spinner-page v-else></spinner-page>
 </template>
 
 <script>
@@ -95,27 +85,10 @@ export default {
       clientToDeleteName: "",
       clientToDeleteId: 0,
       clientToSave: {},
+      clients: null
     };
   },
 
-  computed: {
-    clients() {
-      var clients = this.$store.getters["clients/findClients"];
-      var sortedClients = clients.sort((a, b) => {
-        let fa = a.id,
-            fb = b.id;
-        if (fa < fb) {
-          return -1;
-        }
-        if (fa > fb) {
-          return 1;
-        }
-        return 0;
-      });
-
-      return sortedClients;
-    },
-  },
   methods: {
     add() {
       this.title = "Add Client";
@@ -154,10 +127,17 @@ export default {
     viewClient(id) {
       this.$router.push("/clients/" + id);
     },
+
+    async loadClients() {
+      console.log("is loading")
+      await this.$store.dispatch("clients/loadClients");
+      this.clients = await this.$store.getters["clients/findClients"];
+      console.log(this.clients)
+    }
   },
-  beforeCreate() {
-    this.$store.dispatch("clients/loadClients");
-  },
+  mounted() {
+    this.loadClients();
+  }
 };
 </script>
 

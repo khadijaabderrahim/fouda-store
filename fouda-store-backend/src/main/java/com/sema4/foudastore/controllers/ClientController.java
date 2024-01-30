@@ -22,7 +22,7 @@ public class ClientController extends ExceptionHandling {
     @GetMapping(value = "/",produces = {MediaType.APPLICATION_JSON_VALUE})
     ResponseEntity<List<Client>> findAll() {
         try {
-            Thread.sleep(3000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

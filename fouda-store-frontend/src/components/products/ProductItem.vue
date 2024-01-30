@@ -1,15 +1,17 @@
 <script setup>
 import BaseCard from "../UI/BaseCard.vue";
-import { defineModel } from "vue";
+import { defineModel , ref} from "vue";
+import DescriptionDialog from "@/components/UI/DescriptionDialog";
 
 const product = defineModel();
+const displayDescription = ref(false)
 
 </script>
 
 <template>
-  <base-card class="product-item-panel">
+  <base-card class="product-item-panel" @mouseover="displayDescription = true" @mouseleave="displayDescription = false" >
     <img :src="product.image" alt="product" />
-    <p style="margin-botton: 10px">{{ product.description }}</p>
+    <p>{{ product.label }}</p>
     <div class="price">
       <span>{{ $filters.euroCurrency(product.prix) }}</span>
     </div>
@@ -17,6 +19,8 @@ const product = defineModel();
       <input type="checkbox" v-model="product.isSelectedForOrder" />
     </div>
   </base-card>
+
+  <description-dialog v-if="displayDescription" :content="product.description"></description-dialog>
 </template>
 
 <style scoped>

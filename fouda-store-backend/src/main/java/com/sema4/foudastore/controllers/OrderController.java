@@ -52,7 +52,7 @@ public class OrderController extends ExceptionHandling {
 
     @PostMapping("/search")
     ResponseEntity<List<Order>> search(@RequestBody SearchOrderRequest searchOrderRequest) throws InterruptedException {
-        Thread.sleep(1000);
+        Thread.sleep(500);
         return ResponseEntity.ok(orderService.searchOrders(searchOrderRequest));
     }
 
