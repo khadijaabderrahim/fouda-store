@@ -13,4 +13,6 @@ run_local_db:
 flyway_migrate:
 		mvn clean flyway:migrate
 
+build:
+		mvn clean install
 
