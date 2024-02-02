@@ -1,6 +1,5 @@
 package com.sema4.foudastore;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sema4.foudastore.dto.CreateOrderRequest;
 import com.sema4.foudastore.dto.UpdateOrderStatusRequest;
@@ -23,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,8 +34,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -177,6 +177,54 @@ public class OrdersRestControllerTest {
 
 
         }
+
+
+    @Test
+    public void testSaveOrderClientIdNull400() throws Exception {
+        CreateOrderRequest requestClientIdNull = new CreateOrderRequest();
+        requestClientIdNull.setClientId(null);
+        requestClientIdNull.setSelectedProducts(List.of(1L, 2L));
+
+        mvc.perform(post(ORDERS_SERVICE_BASE_URL).contentType(MediaType.APPLICATION_JSON).header(AUTH_HEADER_NAME, AUTH_HEADER_VAL)
+                .content(objectMapper.writeValueAsString(requestClientIdNull))).andExpect(status().is(400))
+                .andExpect(jsonPath("$.clientId",is("must not be null")));
+    }
+
+
+    @Test
+    public void testSaveOrderSelectedProductsEmpty400() throws Exception {
+
+
+        CreateOrderRequest requestSelectedProductsEmpty = new CreateOrderRequest();
+        requestSelectedProductsEmpty.setClientId(1L);
+        requestSelectedProductsEmpty.setSelectedProducts(Collections.emptyList());
+
+        mvc.perform(post(ORDERS_SERVICE_BASE_URL).contentType(MediaType.APPLICATION_JSON).header(AUTH_HEADER_NAME, AUTH_HEADER_VAL)
+                        .content(objectMapper.writeValueAsString(requestSelectedProductsEmpty))).andExpect(status().is(400))
+                .andExpect(jsonPath("$.selectedProducts",is("size must be between 1 and 10")));
+    }
+
+    @Test
+    public void testUpdateOrderStatusStatusNull400() throws Exception {
+        UpdateOrderStatusRequest updateOrderStatusRequest = new UpdateOrderStatusRequest(1L,null);
+        mvc.perform(post(ORDERS_SERVICE_BASE_URL+"/status")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updateOrderStatusRequest))
+                        .header(AUTH_HEADER_NAME, AUTH_HEADER_VAL)
+                ).andExpect(status().is(400))
+                .andExpect(jsonPath("$.status" , is("must not be null")));
+    }
+
+    @Test
+    public void testUpdateOrderClientIdNull400() throws Exception {
+        UpdateOrderStatusRequest updateOrderStatusRequest = new UpdateOrderStatusRequest(null,Status.CANCELED);
+        mvc.perform(post(ORDERS_SERVICE_BASE_URL+"/status")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updateOrderStatusRequest))
+                        .header(AUTH_HEADER_NAME, AUTH_HEADER_VAL)
+                ).andExpect(status().is(400))
+                .andExpect(jsonPath("$.orderId" , is("must not be null")));
+    }
 
 
 }

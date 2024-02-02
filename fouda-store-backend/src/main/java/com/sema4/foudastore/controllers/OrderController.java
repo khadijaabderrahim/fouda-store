@@ -5,6 +5,7 @@ import com.sema4.foudastore.dto.SearchOrderRequest;
 import com.sema4.foudastore.dto.UpdateOrderStatusRequest;
 import com.sema4.foudastore.entities.Order;
 import com.sema4.foudastore.services.OrderService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,16 +35,9 @@ public class OrderController extends ExceptionHandling {
 
     // add order
     @PostMapping("/")
-    ResponseEntity<Order> save(@RequestBody CreateOrderRequest orderRequest) {
+    ResponseEntity<Order> save(@RequestBody @Valid CreateOrderRequest orderRequest) {
         Order order = orderService.create(orderRequest.getClientId(), orderRequest.getSelectedProducts());
         return ResponseEntity.status(HttpStatus.OK).body(order);
-    }
-
-    //delete order by id
-    @DeleteMapping("/{id}")
-    ResponseEntity delete(@PathVariable Long id) {
-        orderService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PostMapping("/search")
@@ -52,7 +46,7 @@ public class OrderController extends ExceptionHandling {
     }
 
     @PostMapping("/status")
-    ResponseEntity<Order> updateOrderStatus(@RequestBody UpdateOrderStatusRequest request) {
+    ResponseEntity<Order> updateOrderStatus(@RequestBody @Valid UpdateOrderStatusRequest request) {
         return ResponseEntity.ok(orderService.updateOrderStatus(request.getOrderId() , request.getStatus()));
     }
 
