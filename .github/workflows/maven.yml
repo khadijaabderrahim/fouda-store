@@ -13,27 +13,27 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: [Frontend] Set up JDK 17
+      - name:  Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      - name: [Frontend] Build back-end
+      - name:  Build back-end
         run: mvn -B package --file fouda-store-backend/pom.xml
 
       - uses: actions/checkout@v4
-      - name: [Frontend] Build front-end
+      - name:  Build front-end
         uses: actions/setup-node@v3
         with:
           node-version: '20.x'
-      - name: [Frontend] NPM Install
+      - name:  NPM Install
         run: npm install ./fouda-store-frontend/
-      - name: [Frontend] NPM Build 
+      - name:  NPM Build 
         run: npm run build --prefix ./fouda-store-frontend/
 
       - uses: docker/build-push-action@v5
-      - name: [Backend] Build docker image
+      - name:  Build docker image
         with:
         context: ./fouda-store-backend/
           push: false
