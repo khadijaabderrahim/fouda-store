@@ -16,3 +16,8 @@ flyway_migrate:
 build:
 		mvn clean install
 
+build_docker_image:
+		mvn clean install && docker build -t fouda-store-be:1.0-SNAPSHOT .
+
+run_back_end_docker_image:
+		docker run -e RUN_ENV=PROD fouda-store-be:1.0-SNAPSHOT
