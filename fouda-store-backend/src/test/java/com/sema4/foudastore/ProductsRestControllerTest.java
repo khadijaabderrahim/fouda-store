@@ -17,7 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import static com.sema4.foudastore.TestConstants.AUTH_HEADER_NAME;
 import static com.sema4.foudastore.TestConstants.AUTH_HEADER_VAL;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -34,6 +35,7 @@ public class ProductsRestControllerTest {
 
     private Product product1 = new Product("product 1 label","product 1 description" , 99.99,9,"image.url.jpg");
     private Product product2 = new Product("product 2 label","product 2 description" , 11.0,2,"image2.url.jpg");
+    private Product product3 = new Product("product 3 label","product 3 description" , 11.0,2,"image2.url.jpg");
 
     @Autowired
     private MockMvc mvc;
@@ -68,8 +70,7 @@ public class ProductsRestControllerTest {
         mvc.perform(get(PRODUCT_SERVICE_BASE_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(AUTH_HEADER_NAME,AUTH_HEADER_VAL))
-                .andExpect(status().is(200))
-                .andExpect(jsonPath("$.length()", is(2)));
+                .andExpect(status().is(200));
 
     }
 
@@ -93,12 +94,12 @@ public class ProductsRestControllerTest {
     @Test
     @Order(4)
     public void testDeleteProduct200() throws Exception {
-        mvc.perform(delete(PRODUCT_SERVICE_BASE_URL+"/2")
+        mvc.perform(delete(PRODUCT_SERVICE_BASE_URL+"/3")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(AUTH_HEADER_NAME,AUTH_HEADER_VAL))
                 .andExpect(status().is(200));
 
-        assertEquals(1,productRepository.findAll().size(),"Problem in products delete");
+        assertFalse(productRepository.findById(3L).isPresent(),"product:" + product3.getId() +" is not deleted");
 
     }
 

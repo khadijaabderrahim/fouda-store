@@ -4,8 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sema4.foudastore.dto.CreateOrderRequest;
 import com.sema4.foudastore.entities.Client;
+import com.sema4.foudastore.entities.Order;
 import com.sema4.foudastore.entities.Product;
+import com.sema4.foudastore.entities.Status;
 import com.sema4.foudastore.repositories.ClientRepository;
+import com.sema4.foudastore.repositories.OrderRepository;
 import com.sema4.foudastore.repositories.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
@@ -17,13 +20,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.event.annotation.BeforeTestClass;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.sema4.foudastore.TestConstants.AUTH_HEADER_NAME;
 import static com.sema4.foudastore.TestConstants.AUTH_HEADER_VAL;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -48,6 +53,9 @@ public class OrdersRestControllerTest {
     @Autowired
     private ClientRepository clientRepository;
 
+    @Autowired
+    private OrderRepository orderRepository;
+
     @BeforeEach
     public void initData() {
         LOGGER.info("Init Data for test");
@@ -67,17 +75,21 @@ public class OrdersRestControllerTest {
     }
 
     @Test
+    @org.junit.jupiter.api.Order(1)
     public void testSaveOrder200() throws Exception {
         LOGGER.info("test save order ");
         CreateOrderRequest request = new CreateOrderRequest();
         request.setClientId(1L);
-        request.setSelectedProducts(List.of(1L,2L));
+        request.setSelectedProducts(List.of(1L, 2L));
 
-        mvc.perform(post(ORDERS_SERVICE_BASE_URL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header(AUTH_HEADER_NAME,AUTH_HEADER_VAL)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().is(200));
+        mvc.perform(post(ORDERS_SERVICE_BASE_URL).contentType(MediaType.APPLICATION_JSON).header(AUTH_HEADER_NAME, AUTH_HEADER_VAL)
+                .content(objectMapper.writeValueAsString(request))).andExpect(status().is(200));
+
+        Optional<Order> order = orderRepository.findById(1L);
+
+        assertTrue(order.isPresent());
+        assertEquals(order.get().getStatus(), Status.NEW);
+        assertEquals(request.getClientId(), order.get().getClient().getId());
 
     }
 
