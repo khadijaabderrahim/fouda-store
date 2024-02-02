@@ -32,9 +32,9 @@ jobs:
       - name: [Frontend] NPM Build 
         run: npm run build --prefix ./fouda-store-frontend/
 
+      - uses: docker/build-push-action@v5
       - name: [Backend] Build docker image
-        uses: docker/build-push-action@v5
         with:
-          context: ./fouda-store-backend/
+        context: ./fouda-store-backend/
           push: false
           tags: sema4/fouda-store:latest
