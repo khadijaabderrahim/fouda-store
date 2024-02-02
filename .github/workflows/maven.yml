@@ -36,5 +36,5 @@ jobs:
       - name:  Build docker image
         with:
         context: ./fouda-store-backend/
-          push: false
-          tags: sema4/fouda-store:latest
+        push: false
+        tags: sema4/fouda-store:latest
