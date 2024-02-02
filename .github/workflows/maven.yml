@@ -37,6 +37,6 @@ jobs:
       - name:  Build docker image
       - uses: docker/build-push-action@v5
         with:
-        context: ./fouda-store-backend/
-        push: false
-        tags: sema4/fouda-store:latest
+          context: ./fouda-store-backend/
+          push: false
+          tags: sema4/fouda-store:latest
