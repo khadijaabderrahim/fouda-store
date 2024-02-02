@@ -1,17 +1,18 @@
 package com.sema4.foudastore.services;
 
-import com.sema4.foudastore.dto.OrderDetail;
 import com.sema4.foudastore.dto.SearchOrderRequest;
 import com.sema4.foudastore.entities.Client;
 import com.sema4.foudastore.entities.Order;
 import com.sema4.foudastore.entities.Product;
 import com.sema4.foudastore.entities.Status;
+import com.sema4.foudastore.exceptions.BadDataEntryException;
 import com.sema4.foudastore.exceptions.ElementNotFoundException;
 import com.sema4.foudastore.repositories.ClientRepository;
 import com.sema4.foudastore.repositories.OrderRepository;
 import com.sema4.foudastore.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -43,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void create(Long clientId, List<Long> productsIds) {
+    public Order create(Long clientId, List<Long> productsIds) {
         Order order = new Order();
         order.setOrderDate(LocalDateTime.now());
 
@@ -54,7 +55,7 @@ public class OrderServiceImpl implements OrderService {
 
         List<Product> productList = productRepository.findAllById(productsIds);
         order.setProductList(productList);
-        this.orderRepository.save(order);
+        return this.orderRepository.save(order);
     }
 
     @Override
@@ -67,5 +68,15 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.searchOrders(searchOrderRequest.getOrderId(),searchOrderRequest.getClientId(),searchOrderRequest.getOrderStatus());
     }
 
-
+    @Override
+    @Transactional
+    public Order updateOrderStatus(Long orderId, Status newStatus) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new ElementNotFoundException("Order " + orderId + " not found"));
+        if(order.getStatus().possibleStatus().contains(newStatus)){
+            order.setStatus(newStatus);
+            return order;
+        } else {
+            throw new BadDataEntryException("Bad status entered, possible status are :" + order.getStatus().possibleStatus());
+        }
+    }
 }

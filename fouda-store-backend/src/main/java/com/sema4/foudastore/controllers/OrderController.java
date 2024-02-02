@@ -2,6 +2,7 @@ package com.sema4.foudastore.controllers;
 
 import com.sema4.foudastore.dto.CreateOrderRequest;
 import com.sema4.foudastore.dto.SearchOrderRequest;
+import com.sema4.foudastore.dto.UpdateOrderStatusRequest;
 import com.sema4.foudastore.entities.Order;
 import com.sema4.foudastore.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,9 @@ public class OrderController extends ExceptionHandling {
 
     // add order
     @PostMapping("/")
-    ResponseEntity save(@RequestBody CreateOrderRequest orderRequest) {
-        orderService.create(orderRequest.getClientId(), orderRequest.getSelectedProducts());
-        return ResponseEntity.status(HttpStatus.OK).build();
+    ResponseEntity<Order> save(@RequestBody CreateOrderRequest orderRequest) {
+        Order order = orderService.create(orderRequest.getClientId(), orderRequest.getSelectedProducts());
+        return ResponseEntity.status(HttpStatus.OK).body(order);
     }
 
     //delete order by id
@@ -48,6 +49,11 @@ public class OrderController extends ExceptionHandling {
     @PostMapping("/search")
     ResponseEntity<List<Order>> search(@RequestBody SearchOrderRequest searchOrderRequest) throws InterruptedException {
         return ResponseEntity.ok(orderService.searchOrders(searchOrderRequest));
+    }
+
+    @PostMapping("/status")
+    ResponseEntity<Order> updateOrderStatus(@RequestBody UpdateOrderStatusRequest request) {
+        return ResponseEntity.ok(orderService.updateOrderStatus(request.getOrderId() , request.getStatus()));
     }
 
 }

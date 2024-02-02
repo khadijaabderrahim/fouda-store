@@ -1,9 +1,33 @@
 package com.sema4.foudastore.entities;
 
-public enum Status {
-    NEW,
-    FORWARDED,
-    CANCELED,
+import java.util.Collections;
+import java.util.List;
 
-    DELIVERED
+public enum Status {
+    NEW {
+        @Override
+        public List<Status> possibleStatus() {
+            return List.of(FORWARDED,CANCELED);
+        }
+    },
+    FORWARDED{
+        @Override
+        public List<Status> possibleStatus() {
+            return List.of(CANCELED,DELIVERED);
+        }
+    },
+    CANCELED{
+        @Override
+        public List<Status> possibleStatus() {
+            return Collections.emptyList();
+        }
+    },
+    DELIVERED{
+        @Override
+        public List<Status> possibleStatus() {
+            return Collections.emptyList();
+        }
+    };
+
+    public abstract List<Status> possibleStatus();
 }

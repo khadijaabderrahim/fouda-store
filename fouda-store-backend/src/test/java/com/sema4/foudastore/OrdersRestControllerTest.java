@@ -3,6 +3,7 @@ package com.sema4.foudastore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sema4.foudastore.dto.CreateOrderRequest;
+import com.sema4.foudastore.dto.UpdateOrderStatusRequest;
 import com.sema4.foudastore.entities.Client;
 import com.sema4.foudastore.entities.Order;
 import com.sema4.foudastore.entities.Product;
@@ -27,9 +28,15 @@ import java.util.Optional;
 
 import static com.sema4.foudastore.TestConstants.AUTH_HEADER_NAME;
 import static com.sema4.foudastore.TestConstants.AUTH_HEADER_VAL;
+import static com.sema4.foudastore.entities.Status.DELIVERED;
+import static com.sema4.foudastore.entities.Status.FORWARDED;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(classes = FoudaStoreApplication.class, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -94,8 +101,82 @@ public class OrdersRestControllerTest {
     }
 
     @Test
-    public void testFindAllOrders200() {
-        LOGGER.info("test save order ");
+    @org.junit.jupiter.api.Order(2)
+    public void testFindAllOrders200() throws Exception {
+        mvc.perform(get(ORDERS_SERVICE_BASE_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(AUTH_HEADER_NAME, AUTH_HEADER_VAL)
+                ).andExpect(status().is(200));
     }
+
+    @Test
+    @org.junit.jupiter.api.Order(3)
+    public void testUpdateOrderStatus200() throws Exception {
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest();
+        createOrderRequest.setClientId(1L);
+        createOrderRequest.setSelectedProducts(List.of(1L, 2L));
+
+        mvc.perform(post(ORDERS_SERVICE_BASE_URL).contentType(MediaType.APPLICATION_JSON).header(AUTH_HEADER_NAME, AUTH_HEADER_VAL)
+                .content(objectMapper.writeValueAsString(createOrderRequest))).andExpect(status().is(200));
+
+
+        UpdateOrderStatusRequest updateOrderStatusRequest = new UpdateOrderStatusRequest();
+        updateOrderStatusRequest.setOrderId(1L);
+        updateOrderStatusRequest.setStatus(FORWARDED);
+        mvc.perform(post(ORDERS_SERVICE_BASE_URL+"/status")
+                .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updateOrderStatusRequest))
+                .header(AUTH_HEADER_NAME, AUTH_HEADER_VAL)
+        ).andExpect(status().is(200));
+
+        Optional<Order> order = orderRepository.findById(1L);
+        assertTrue(order.isPresent());
+        assertEquals(FORWARDED,order.get().getStatus());
+    }
+
+    @Test
+    @org.junit.jupiter.api.Order(5)
+    public void testUpdateOrderStatusOrderDoesNotExist404() throws Exception {
+        UpdateOrderStatusRequest updateOrderStatusRequest = new UpdateOrderStatusRequest();
+        updateOrderStatusRequest.setOrderId(6969L);
+        updateOrderStatusRequest.setStatus(FORWARDED);
+        mvc.perform(post(ORDERS_SERVICE_BASE_URL+"/status")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updateOrderStatusRequest))
+                .header(AUTH_HEADER_NAME, AUTH_HEADER_VAL)
+        ).andExpect(status().is(404))
+                .andExpect(jsonPath("$.message" , is("Order 6969 not found")));
+
+    }
+
+    @Test
+    @org.junit.jupiter.api.Order(1)
+    public void testUpdateOrderStatusBadNewStatus400() throws Exception {
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest();
+        createOrderRequest.setClientId(2L);
+        createOrderRequest.setSelectedProducts(List.of(1L, 2L, 2L));
+
+        String responseBody = mvc.perform(post(ORDERS_SERVICE_BASE_URL).contentType(MediaType.APPLICATION_JSON).header(AUTH_HEADER_NAME, AUTH_HEADER_VAL)
+                .content(objectMapper.writeValueAsString(createOrderRequest))).andExpect(status().is(200)).andReturn().getResponse().getContentAsString();
+
+        Order order = objectMapper.readValue(responseBody,Order.class);
+        assertNotNull(order);
+
+        UpdateOrderStatusRequest updateOrderStatusRequest = new UpdateOrderStatusRequest();
+        updateOrderStatusRequest.setOrderId(order.getId());
+        updateOrderStatusRequest.setStatus(DELIVERED);
+
+        responseBody = mvc.perform(post(ORDERS_SERVICE_BASE_URL+"/status")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updateOrderStatusRequest))
+                .header(AUTH_HEADER_NAME, AUTH_HEADER_VAL)
+        ).andExpect(status().is(400))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+
+        }
+
 
 }
