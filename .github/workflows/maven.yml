@@ -21,7 +21,8 @@ jobs:
 
 
       - name: Extract Maven project version
-        run: echo "VERSION=$(mvn --file fouda-store-backend/pom.xml -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)"
+        run: |
+          echo "VERSION=$(mvn --file fouda-store-backend/pom.xml -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> "$GITHUB_ENV"
 
       - name: Show extracted Maven project version
         run: echo ${{ env.VERSION }}
