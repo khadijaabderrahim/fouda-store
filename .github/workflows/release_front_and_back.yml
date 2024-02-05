@@ -31,4 +31,5 @@ jobs:
           --batch-mode \
           -Dtag=fouda-store-${{inputs.release-version}} \
           -DreleaseVersion=${{inputs.release-version}} \
-          -DdevelopmentVersion=${{inputs.next-dev-version}}
+          -DdevelopmentVersion=${{inputs.next-dev-version}}\
+          -DconnectionUrl=scm:git:https://github.com/khadijaabderrahim/fouda-store.git
