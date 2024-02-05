@@ -3,31 +3,29 @@ name: Build fouda store application
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
-  build:
-  runs-on: ubuntu-latest
-      steps:
+  build-and-create-docker-image:
+    runs-on: ubuntu-latest
+    steps:
       - name:  Set up JDK 17
       - uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-          
+        
       - name:  Build back-end
       - uses: actions/checkout@v4
         run: mvn -B package --file fouda-store-backend/pom.xml
-        
+      
       - name:  Build front-end
       - uses: actions/setup-node@v3
         with:
           node-version: '20.x'
         - run: npm install ./fouda-store-frontend/
         - run: npm run build --prefix ./fouda-store-frontend/
-          
+        
       - name: Build docker image
       - user: docker/build-push-action@v5
         run: docker build -t fouda-store-be:1.0-SNAPSHOT ./fouda-store-backend/
