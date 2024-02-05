@@ -47,4 +47,5 @@ jobs:
           push: true
           tags: sema4/fouda-store:1.0-SNAPSHOT
             
+            
      
