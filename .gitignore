@@ -1,6 +1,6 @@
 .DS_Store
 node_modules
-/dist
+/fouda-store-frontend/dist
 
 
 # local env files
