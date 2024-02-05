@@ -27,9 +27,8 @@ jobs:
           cache: maven
 
       - name:  Release backend
-        run: mvn -f fouda-store-backend/pom.xml release:perform \
-          --batch-mode \
-          -Dtag=fouda-store-${{inputs.release-version}} \
-          -DreleaseVersion=${{inputs.release-version}} \
-          -DdevelopmentVersion=${{inputs.next-dev-version}}\
-          -DconnectionUrl=scm:git:https://github.com/khadijaabderrahim/fouda-store.git
+        run: mvn -f fouda-store-backend/pom.xml release:clean \
+        release:prepare \
+        release:perform \
+        -DreleaseVersion=${{inputs.release-version}} \ 
+        -DdevelopmentVersion=${{inputs.next-dev-version}} \
