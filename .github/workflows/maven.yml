@@ -40,11 +40,6 @@ jobs:
           context: ./fouda-store-backend/
           push: true
           tags: ziedayadi/fouda-store-backend:${{ env.VERSION }}
-          
-  build-and-push-front-end-image:
-    runs-on: ubuntu-latest
-
-    steps:
 
       - name:  Prepare Node
         uses: actions/setup-node@v3
