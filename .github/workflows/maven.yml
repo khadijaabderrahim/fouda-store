@@ -45,7 +45,7 @@ jobs:
         with:
           context: ./fouda-store-backend/
           push: true
-          tags: sema4/fouda-store:1.0-SNAPSHOT
+          tags: ziedayadi/fouda-store:1.0-SNAPSHOT
             
             
      
