@@ -20,6 +20,13 @@ jobs:
           cache: maven
 
 
+      - name: Extract Maven project version
+        run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+        id: project
+
+      - name: Show extracted Maven project version
+        run: echo ${{ steps.project.outputs.version }}
+        
       - name:  Build back-end
         run: mvn -B package --file fouda-store-backend/pom.xml
 
@@ -45,7 +52,7 @@ jobs:
         with:
           context: ./fouda-store-backend/
           push: true
-          tags: ziedayadi/fouda-store:1.0-SNAPSHOT
+          tags: ziedayadi/fouda-store-backend:1.0-SNAPSHOT
             
             
      
