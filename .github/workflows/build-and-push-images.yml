@@ -34,7 +34,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build and push docker image
+      - name: Build and push backend docker image
         uses: docker/build-push-action@v5
         with:
           context: ./fouda-store-backend/
@@ -52,7 +52,7 @@ jobs:
       - name:  NPM Build
         run: npm run build --prefix ./fouda-store-frontend/
 
-      - name: Build and push docker image
+      - name: Build and push frontend docker image
         uses: docker/build-push-action@v5
         with:
           context: ./fouda-store-frontend/
