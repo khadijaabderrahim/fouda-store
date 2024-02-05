@@ -34,13 +34,17 @@ jobs:
       - name:  NPM Build
         run: npm run build --prefix ./fouda-store-frontend/
 
-
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build docker image
         uses: docker/build-push-action@v5
         with:
           context: ./fouda-store-backend/
-          push: false
+          push: true
           tags: sema4/fouda-store:1.0-SNAPSHOT
             
      
