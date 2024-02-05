@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-and-push-back-end-image:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,22 +24,9 @@ jobs:
         run: |
           echo "VERSION=$(mvn --file fouda-store-backend/pom.xml -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> "$GITHUB_ENV"
 
-      - name: Show extracted Maven project version
-        run: echo ${{ env.VERSION }}
 
       - name:  Build back-end
         run: mvn -B package --file fouda-store-backend/pom.xml
-
-
-      - name:  Build front-end
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20.x'
-
-      - name:  NPM Install
-        run: npm install ./fouda-store-frontend/
-      - name:  NPM Build
-        run: npm run build --prefix ./fouda-store-frontend/
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -53,6 +40,21 @@ jobs:
           context: ./fouda-store-backend/
           push: true
           tags: ziedayadi/fouda-store-backend:${{ env.VERSION }}
-            
+          
+  build-and-push-front-end-image:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name:  Prepare Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name:  NPM Install
+        run: npm install ./fouda-store-frontend/
+
+      - name:  NPM Build
+        run: npm run build --prefix ./fouda-store-frontend/
             
      
