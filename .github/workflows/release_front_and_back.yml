@@ -28,7 +28,7 @@ jobs:
 
       - name:  Release backend
         run: mvn -f fouda-store-backend/pom.xml release:clean \
-        release:prepare \
-        release:perform \
-        -DreleaseVersion=${{inputs.release-version}} \ 
-        -DdevelopmentVersion=${{inputs.next-dev-version}} \
+          release:prepare \
+          release:perform \
+          -DreleaseVersion=${{inputs.release-version}} \
+          -DdevelopmentVersion=${{inputs.next-dev-version}} \
