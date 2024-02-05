@@ -14,7 +14,7 @@ on:
 
 
 jobs:
-  build-and-push-front-and-back-image:
+  release-front-and-back:
     runs-on: ubuntu-latest
 
     steps:
