@@ -27,5 +27,5 @@ jobs:
       - run: npm run build --prefix ./fouda-store-frontend/
         
       - name: Build docker image
-      - user: docker/build-push-action@v5
+      - uses: docker/build-push-action@v5
       - run: docker build -t fouda-store-be:1.0-SNAPSHOT ./fouda-store-backend/
