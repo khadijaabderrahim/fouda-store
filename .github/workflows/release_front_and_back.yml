@@ -26,9 +26,10 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name:  Release backend
-        run: mvn -f fouda-store-backend/pom.xml release:clean \
-          release:prepare \
-          release:perform \
-          -DreleaseVersion=${{inputs.release-version}} \
-          -DdevelopmentVersion=${{inputs.next-dev-version}} \
+      - name: Release clean
+        run: mvn -f fouda-store-backend/pom.xml release:clean
+      - name: Release prepare
+        run: mvn release:prepare --batch-mode -DreleaseVersion=${{inputs.release-version}} -DdevelopmentVersion=${{inputs.next-dev-version}} --file fouda-store-backend/pom.xml
+      - name: Release perform
+        run: mvn release:perform --batch-mode -DreleaseVersion=${{inputs.release-version}} -DdevelopmentVersion=${{inputs.next-dev-version}} --file fouda-store-backend/pom.xml
+ 
