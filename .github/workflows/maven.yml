@@ -17,7 +17,7 @@ jobs:
         
       - name:  Build back-end
       - uses: actions/checkout@v4
-        run: mvn -B package --file fouda-store-backend/pom.xml
+      - run: mvn -B package --file fouda-store-backend/pom.xml
       
       - name:  Build front-end
       - uses: actions/setup-node@v3
@@ -28,4 +28,4 @@ jobs:
         
       - name: Build docker image
       - user: docker/build-push-action@v5
-        run: docker build -t fouda-store-be:1.0-SNAPSHOT ./fouda-store-backend/
+      - run: docker build -t fouda-store-be:1.0-SNAPSHOT ./fouda-store-backend/
