@@ -26,6 +26,9 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Prepare git
+        run: git config --global user.name "github actions usename" && git config --global user.email "github@sema4conseil.fr"
+
       - name: Release clean
         run: mvn -f fouda-store-backend/pom.xml release:clean
       - name: Release prepare
