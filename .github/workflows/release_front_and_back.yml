@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
+
       - name: Release back
         uses: qcastel/github-actions-maven-release@v1.12.41
         with:
@@ -32,3 +32,9 @@ jobs:
           maven-development-version-number: ${{ inputs.next-dev-version }}
           maven-release-version-number: ${{ inputs.release-version }}
           maven-args: "-Dmaven.deploy.skip=true"
+
+      - name: Checkout created TAG
+        run: git checkout ${{ inputs.release-version }}
+
+      - name: Maven build tag
+        run: mvn -B package --file fouda-store-backend/pom.xml
