@@ -1,5 +1,6 @@
 PG_CONTAINER_NAME ?= fsdevdb
 IMG_TAG ?= latest
+SKIP_TESTS ?= false
 
 delete_local_db:
 		docker kill $(PG_CONTAINER_NAME) \
@@ -15,10 +16,10 @@ flyway_migrate:
 		mvn clean flyway:migrate
 
 build:
-		mvn clean install
+		mvn clean install -DskipTests=$(SKIP_TESTS)
 
 build_docker_image:
-		mvn clean install && docker build --build-arg="BUILD_VERSION=$(IMG_TAG)" -t ziedayadi/fouda-store-backend:$(IMG_TAG) .
+		make build && docker build --build-arg="BUILD_VERSION=$(IMG_TAG)" -t ziedayadi/fouda-store-backend:$(IMG_TAG) .
 
 run_back_end_docker_image:
 		docker run -e RUN_ENV=PROD ziedayadi/fouda-store-backend:$(IMG_TAG)

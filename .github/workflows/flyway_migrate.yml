@@ -1,0 +1,35 @@
+name: Release fouda store application
+
+on:
+  workflow_dispatch:
+    inputs:
+      enviroment:
+        description: 'Envirement to migrate'
+        required: false
+        type: choice
+        options:
+          - INT
+          - REC
+          - PROD
+
+      version:
+        description: 'Version to install in DB'
+        required: false
+        type: string
+
+
+jobs:
+  migrate-flyway:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: checkout version to migrate
+        id: checkout_version
+        if: ${{ inputs.version != null }}
+        run: git checkout ${{ inputs.version }}
+
+      - name: execute flyway
+        uses: mvn -f fouda-store-backend/pom.xml -Dflyway.user=databaseUser -Dflyway.password=databasePassword -Dflyway.schemas=schemaName
