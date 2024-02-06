@@ -26,4 +26,4 @@ jobs:
           git-release-bot-email: "release-bot@sema4.com"
           maven-project-folder: "fouda-store-backend/"
           maven-development-version-number: ${{ inputs.next-dev-version }}
-          maven-release-version-number: ${{ release-version }}
+          maven-release-version-number: ${{ inputs.release-version }}
