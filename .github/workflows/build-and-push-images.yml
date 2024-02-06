@@ -40,6 +40,8 @@ jobs:
           context: ./fouda-store-backend/
           push: true
           tags: ziedayadi/fouda-store-backend:${{ env.VERSION }}
+          build-args: |
+            BUILD_VERSION=${{ env.VERSION }}
 
       - name:  Prepare Node
         uses: actions/setup-node@v3

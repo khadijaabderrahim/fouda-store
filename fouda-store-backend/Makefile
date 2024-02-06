@@ -1,4 +1,5 @@
 PG_CONTAINER_NAME ?= fsdevdb
+IMG_TAG ?= latest
 
 delete_local_db:
 		docker kill $(PG_CONTAINER_NAME) \
@@ -17,7 +18,7 @@ build:
 		mvn clean install
 
 build_docker_image:
-		mvn clean install && docker build -t fouda-store-be:1.0-SNAPSHOT .
+		mvn clean install && docker build --build-arg="BUILD_VERSION=$(IMG_TAG)" -t ziedayadi/fouda-store-backend:$(IMG_TAG) .
 
 run_back_end_docker_image:
-		docker run -e RUN_ENV=PROD fouda-store-be:1.0-SNAPSHOT
+		docker run -e RUN_ENV=PROD fouda-store-be:$(IMG_TAG)

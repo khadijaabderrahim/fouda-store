@@ -1,6 +1,7 @@
 name: Release fouda store application
 
 on:
+#  push:
   workflow_dispatch:
     inputs:
       release-version:
