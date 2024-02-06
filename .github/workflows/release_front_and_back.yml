@@ -22,7 +22,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Release back
+      - name: Perform release
         uses: qcastel/github-actions-maven-release@v1.12.41
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -34,8 +34,8 @@ jobs:
           maven-release-version-number: ${{ inputs.release-version }}
           maven-args: "-Dmaven.deploy.skip=true"
 
-      - name: Checkout created TAG
+      - name: Create docker image (checkou tag)
         run: git checkout ${{ inputs.release-version }}
 
-      - name: Maven build tag
+      - name: Create docker image (maven build tag)
         run: mvn -B package --file fouda-store-backend/pom.xml
