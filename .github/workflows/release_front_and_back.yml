@@ -31,3 +31,4 @@ jobs:
           maven-project-folder: "fouda-store-backend/"
           maven-development-version-number: ${{ inputs.next-dev-version }}
           maven-release-version-number: ${{ inputs.release-version }}
+          maven-args: "-Dmaven.deploy.skip=true"
