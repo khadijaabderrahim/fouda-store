@@ -24,6 +24,7 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           git-release-bot-name: "release-bot"
           git-release-bot-email: "release-bot@sema4.com"
+          release-branch-name: main
           maven-project-folder: "fouda-store-backend/"
           maven-development-version-number: ${{ inputs.next-dev-version }}
           maven-release-version-number: ${{ inputs.release-version }}
