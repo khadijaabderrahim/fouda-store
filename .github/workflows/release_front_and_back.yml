@@ -34,8 +34,11 @@ jobs:
           maven-release-version-number: ${{ inputs.release-version }}
           maven-args: "-Dmaven.deploy.skip=true"
 
-      - name: Create docker image (checkou tag)
-        run: git checkout ${{ inputs.release-version }}
-
-      - name: Create docker image (maven build tag)
-        run: mvn -B package --file fouda-store-backend/pom.xml
+      - name: Build and push backend docker image ${{ inputs.release-version }}
+        uses: docker/build-push-action@v5
+        with:
+          context: ./fouda-store-backend/
+          push: true
+          tags: ziedayadi/fouda-store-backend:${{ inputs.release-version }}
+          build-args: |
+            BUILD_VERSION=${{ inputs.release-version }}
