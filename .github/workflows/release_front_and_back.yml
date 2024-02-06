@@ -48,3 +48,16 @@ jobs:
           tags: ziedayadi/fouda-store-backend:${{ inputs.release-version }}
           build-args: |
             BUILD_VERSION=${{ inputs.release-version }}
+
+      - name: NPM Install
+        run: npm install ./fouda-store-frontend/
+
+      - name: NPM Build
+        run: npm run build --prefix ./fouda-store-frontend/
+
+      - name: Build and push frontend docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./fouda-store-frontend/
+          push: true
+          tags: ziedayadi/fouda-store-frontend:${{ inputs.release-version }}
