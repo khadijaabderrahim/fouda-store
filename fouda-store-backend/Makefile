@@ -21,4 +21,8 @@ build_docker_image:
 		mvn clean install && docker build --build-arg="BUILD_VERSION=$(IMG_TAG)" -t ziedayadi/fouda-store-backend:$(IMG_TAG) .
 
 run_back_end_docker_image:
-		docker run -e RUN_ENV=PROD fouda-store-be:$(IMG_TAG)
+		docker run -e RUN_ENV=PROD ziedayadi/fouda-store-backend:$(IMG_TAG)
+
+run_fron_end_docker_image:
+		docker run -e RUN_ENV=PROD ziedayadi/fouda-store-frontend:$(IMG_TAG)
+
