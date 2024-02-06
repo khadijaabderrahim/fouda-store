@@ -1,4 +1,4 @@
-name: Release fouda store application
+name: Migrate flyway
 
 on:
   workflow_dispatch:
