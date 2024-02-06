@@ -32,4 +32,4 @@ jobs:
         run: git checkout ${{ inputs.version }}
 
       - name: execute flyway
-        uses: mvn -f fouda-store-backend/pom.xml -Dflyway.user=databaseUser -Dflyway.password=databasePassword -Dflyway.schemas=schemaName
+        run: mvn -f fouda-store-backend/pom.xml -Dflyway.user=databaseUser -Dflyway.password=databasePassword -Dflyway.schemas=schemaName
