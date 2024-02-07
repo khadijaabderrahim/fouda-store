@@ -32,7 +32,7 @@ jobs:
         run: git checkout ${{ inputs.version }}
 
       - name: execute flyway
-        run: mvn -flyway:migrate -f fouda-store-backend/pom.xml \
+        run: mvn flyway:migrate -f fouda-store-backend/pom.xml \
           -Dflyway.url=${{secrets.REC_DB_URL}} \
           -Dflyway.user=${{secrets.REC_DB_USER}} \
           -Dflyway.password=${{secrets.REC_DB_PASSWORD}} \
