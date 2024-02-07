@@ -12,24 +12,18 @@ on:
           - REC
           - PROD
 
-      version:
-        description: 'Version to install in DB'
-        required: false
-        type: string
-
 
 jobs:
   migrate-flyway:
     runs-on: ubuntu-latest
 
+    env:
+      DB_URL: ${{secrets[format('{0}_DB_URL', inputs.enviroment)] }}
+      DB_USER: ${{secrets[format('{0}_DB_USER', inputs.enviroment)] }}
+      DB_PASSWORD: ${{secrets[format('{0}_DB_PASSWORD', inputs.enviroment)] }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: checkout version to migrate
-        id: checkout_version
-        if: ${{ inputs.version != null }}
-        run: git checkout ${{ inputs.version }}
-
       - name: execute flyway
-        run: mvn flyway:migrate -f fouda-store-backend/pom.xml -Dflyway.url=${{secrets.REC_DB_URL}} -Dflyway.user=${{secrets.REC_DB_USER}} -Dflyway.password=${{secrets.REC_DB_PASSWORD}} -Dflyway.schemas=postgres  
+        run: mvn flyway:migrate -f fouda-store-backend/pom.xml -Dflyway.url=${{env.DB_URL}} -Dflyway.user=${{env.DB_USER}} -Dflyway.password=${{env.DB_PASSWORD}} -Dflyway.schemas=postgres
