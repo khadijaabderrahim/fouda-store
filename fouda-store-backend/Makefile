@@ -22,8 +22,8 @@ build_docker_image:
 		make build && docker build --build-arg="BUILD_VERSION=$(IMG_TAG)" -t ziedayadi/fouda-store-backend:$(IMG_TAG) .
 
 run_back_end_docker_image:
-		docker run -e RUN_ENV=PROD ziedayadi/fouda-store-backend:$(IMG_TAG)
+		docker run -e RUN_ENV=DEV ziedayadi/fouda-store-backend:$(IMG_TAG)
 
-run_fron_end_docker_image:
-		docker run -e RUN_ENV=PROD ziedayadi/fouda-store-frontend:$(IMG_TAG)
+run_front_end_docker_image:
+		docker run -e RUN_ENV=DEV ziedayadi/fouda-store-frontend:$(IMG_TAG)
 
