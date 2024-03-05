@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fouda-store-backend-deployment-prod
+  labels:
+    app: fouda-store-back-end-prod
+    env: prod
+    version: 1.3.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fouda-store-back-end-pod-prod
+  template:
+    metadata:
+      labels:
+        app: fouda-store-back-end-pod-prod
+        env: PROD
+        version: 1.4.0-SNAPSHOT
+    spec:
+      containers:
+        - name: fouda-store-backend
+          image: ziedayadi/fouda-store-backend:1.4.0-SNAPSHOT
+          env:
+            - name: RUN_ENV
+              value: "PROD"
+          ports:
+            - containerPort: 8080
